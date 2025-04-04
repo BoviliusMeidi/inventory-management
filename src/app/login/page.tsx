@@ -1,6 +1,24 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { login } from "@/app/auth/api/action";
 
 export default function LoginPage() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const response = await login(formData);
+
+    if (response.error) {
+      setErrorMessage(response.error);
+    } else {
+      window.location.href = "/dashboard";
+    }
+  };
   return (
     <div className="flex flex-row items-center justify-around h-screen">
       <Image src="/logo-BM.svg" width={300} height={200} alt="Logo BM" />
@@ -8,7 +26,7 @@ export default function LoginPage() {
         <Image src="/logo-BM.svg" width={60} height={30} alt="Logo BM" />
         <h1 className="font-bold text-4xl">Log in to your account</h1>
         <p className="opacity-70">Welcome back! Please enter your details.</p>
-        <form action="" className="flex flex-col gap-4 w-100">
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 w-100">
           <div className="flex flex-col">
             <label htmlFor="email" className="text-gray-800 font-semibold">
               Email
@@ -16,6 +34,7 @@ export default function LoginPage() {
             <input
               id="email"
               type="email"
+              name="email"
               className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
               placeholder="Enter your email"
             />
@@ -27,6 +46,7 @@ export default function LoginPage() {
             <input
               id="password"
               type="password"
+              name="password"
               className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
               placeholder="Enter your password"
             />
@@ -40,6 +60,11 @@ export default function LoginPage() {
               Forgot Password
             </a>
           </div>
+          {errorMessage && (
+            <div className="text-red-500">
+              <p>{errorMessage}</p>
+            </div>
+          )}
           <button className="cursor-pointer rounded-md p-1 bg-blue-600 text-white">
             Sign In
           </button>
