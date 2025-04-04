@@ -12,6 +12,7 @@ import {
   LogOut,
 } from "./SVG/Sidebar";
 import NavItem from "./NavItem";
+import { logout } from "../auth/api/action";
 
 export default function Sidebar() {
   return (
@@ -39,7 +40,12 @@ export default function Sidebar() {
       </div>
       <div className="flex flex-col gap-2 mb-4">
         <NavItem href="/settings" icon={<Settings />} label="Settings" />
-        <NavItem href="/logout" icon={<LogOut />} label="Log Out" />
+        <form action={logout}>
+          <button className="cursor-pointer flex items-center gap-4 p-2 text-lg text-gray-700 hover:text-blue-500">
+            <LogOut />
+            Log Out
+          </button>
+        </form>
       </div>
     </aside>
   );
