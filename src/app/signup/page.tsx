@@ -1,6 +1,25 @@
+"use client"
+
 import Image from "next/image";
+import { useState } from "react";
+import { signup } from "@/app/auth/api/action";
 
 export default function SignUpPage() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const response = await signup(formData);
+
+    if (response.error){
+      setErrorMessage(response.error);
+    }else{
+      window.location.href = "/dashboard";
+    }
+  }
+
   return (
     <div className="flex flex-row items-center justify-around h-screen">
       <Image src="/logo-BM.svg" width={300} height={200} alt="Logo BM" />
@@ -8,7 +27,7 @@ export default function SignUpPage() {
         <Image src="/logo-BM.svg" width={60} height={30} alt="Logo BM" />
         <h1 className="font-bold text-4xl">Create an account</h1>
         <p className="opacity-70">Start your 30-day free trial.</p>
-        <form action="" className="flex flex-col gap-4 w-100">
+        <form onSubmit={handleSignUp} className="flex flex-col gap-4 w-100">
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-800 font-semibold">
               Name
@@ -16,6 +35,7 @@ export default function SignUpPage() {
             <input
               id="name"
               type="username"
+              name="display_name"
               className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
               placeholder="Enter your name"
             />
@@ -27,6 +47,7 @@ export default function SignUpPage() {
             <input
               id="email"
               type="email"
+              name="email"
               className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
               placeholder="Enter your email"
             />
@@ -38,6 +59,7 @@ export default function SignUpPage() {
             <input
               id="password"
               type="password"
+              name="password"
               className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
               placeholder="Enter your password"
             />
@@ -45,6 +67,12 @@ export default function SignUpPage() {
               Must be at least 8 characters.
             </p>
           </div>
+          {/* Display error message */}
+          {errorMessage && (
+            <div className="text-red-500">
+              <p>{errorMessage}</p>
+            </div>
+          )}
           <button className="cursor-pointer rounded-md p-1 bg-blue-600 text-white">
             Get Started
           </button>
