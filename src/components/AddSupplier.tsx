@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const AddProduct = () => {
+const AddSupplier = () => {
   const [showForm, setShowForm] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -13,14 +13,14 @@ const AddProduct = () => {
         onClick={() => setShowForm(!showForm)}
         className="cursor-pointer rounded-md py-2 px-4 bg-blue-600 text-white"
       >
-        Add Product
+        Add Supplier
       </button>
 
       {/* Product Form */}
       {showForm && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <div className="w-1/3 p-4 border border-gray-300 rounded-md bg-white shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">New Product</h2>
+            <h2 className="text-xl font-semibold mb-4">New Supplier</h2>
             <form className="flex flex-col gap-5">
               <div
                 className={`border-2 border-dashed rounded-lg p-3 w-full max-w-xs mx-auto 
@@ -39,6 +39,14 @@ const AddProduct = () => {
                   Browse Image
                   <input type="file" className="hidden" />
                 </label>
+              </div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="">Supplier Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter supplier name"
+                  className="border rounded-md p-2 w-2/3"
+                />
               </div>
               <div className="flex items-center justify-between">
                 <label htmlFor="">Product Name</label>
@@ -73,18 +81,26 @@ const AddProduct = () => {
                 </select>
               </div>
               <div className="flex items-center justify-between">
-                <label htmlFor="">Price Buy</label>
+                <label htmlFor="">Contact Number</label>
                 <input
                   type="number"
-                  placeholder="Enter price buy product"
+                  placeholder="Enter supplier contact"
                   className="border rounded-md p-2 w-2/3"
                 />
               </div>
               <div className="flex items-center justify-between">
-                <label htmlFor="">Price Sell</label>
+                <label htmlFor="">Purchase Link</label>
+                <input
+                  type="text"
+                  placeholder="Enter purchase link"
+                  className="border rounded-md p-2 w-2/3"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="">Price Buy</label>
                 <input
                   type="number"
-                  placeholder="Enter price sell product"
+                  placeholder="Enter price buy product"
                   className="border rounded-md p-2 w-2/3"
                 />
               </div>
@@ -99,7 +115,7 @@ const AddProduct = () => {
                   type="submit"
                   className="cursor-pointer bg-blue-600 text-white py-2 px-4 rounded-md"
                 >
-                  Add Product
+                  Add Supplier
                 </button>
               </div>
             </form>
@@ -110,4 +126,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AddSupplier;

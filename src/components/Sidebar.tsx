@@ -12,7 +12,7 @@ import {
   LogOut,
 } from "./SVG/Sidebar";
 import NavItem from "./NavItem";
-import { logout } from "../auth/api/action";
+import { logout } from "../app/auth/api/action";
 
 export default function Sidebar() {
   return (

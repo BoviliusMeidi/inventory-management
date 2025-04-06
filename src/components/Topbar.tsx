@@ -22,7 +22,7 @@ export default function Topbar() {
         </div>
         <div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer">
           <Image
-            src="/profile.png"
+            src="/profile.svg"
             width={40}
             height={40}
             alt="Profile"
