@@ -1,5 +1,5 @@
-import AddSupplier from "../components/AddSupplier";
-import Layout from "../components/Layout";
+import AddSupplier from "../../components/AddSupplier";
+import Layout from "../../components/Layout";
 
 export default function SuppliersPage() {
   return (
