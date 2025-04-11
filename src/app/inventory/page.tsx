@@ -1,8 +1,11 @@
-import Layout from "../components/Layout";
-import AddProduct from "../components/AddProduct";
-// const stockStatus = ["In-Stock", "Out of Stock", "Low Stock"];
+"use client";
+import Layout from "../../components/Layout";
+import AddProduct from "../../components/AddProduct";
+import ProductTable from "../../components/ProductTable";
+import { useState } from "react";
 
 export default function InventoryPage() {
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   return (
     <Layout>
       <div className="flex flex-col gap-3 mr-3">
@@ -80,70 +83,27 @@ export default function InventoryPage() {
                 Filters
                 <div className="absolute top-8 -left-6 mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 pointer-events-none">
                   <ul className="flex flex-col p-2">
-                    <li className="py-1 px-2 hover:bg-gray-100 cursor-pointer">
-                      Option 1
-                    </li>
-                    <li className="py-1 px-2 hover:bg-gray-100 cursor-pointer">
-                      Option 2
-                    </li>
-                    <li className="py-1 px-2 hover:bg-gray-100 cursor-pointer">
-                      Option 3
-                    </li>
-                    <li className="py-1 px-2 hover:bg-gray-100 cursor-pointer">
-                      Option 4
-                    </li>
+                    {["In-Stock", "Out of Stock", "Low Stock", "All"].map(
+                      (filter) => (
+                        <li
+                          key={filter}
+                          className="py-1 px-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() =>
+                            setSelectedFilter(filter === "All" ? null : filter)
+                          }
+                        >
+                          {filter}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
-              </button>
-              <button className="cursor-pointer rounded-md py-2 px-4 border border-gray-500">
-                Download All
               </button>
             </div>
           </div>
           {/* Data Products -- Block 3 */}
           <div className="pt-2">
-            <table className="min-w-full bg-white text-left">
-              {/* Title of Column */}
-              <thead>
-                <tr>
-                  <th className="py-2 px-4">Product Name</th>
-                  <th className="py-2 px-4">Product Type</th>
-                  <th className="py-2 px-4">Buying Price</th>
-                  <th className="py-2 px-4">Selling Price</th>
-                  <th className="py-2 px-4">Quantity</th>
-                  <th className="py-2 px-4">Availability</th>
-                </tr>
-              </thead>
-              {/* Data of Column */}
-              <tbody className="border-t border-gray-300">
-                <tr>
-                  <td className="py-2 px-4">Product Name</td>
-                  <td className="py-2 px-4">Product Name</td>
-                  <td className="py-2 px-4">Rp123</td>
-                  <td className="py-2 px-4">Rp123</td>
-                  <td className="py-2 px-4">12 Units</td>
-                  <td className="py-2 px-4">In-stock</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="flex flex-row justify-between pt-4">
-            <button
-              //   disabled={currentPage === 1}
-              //   onClick={() => setCurrentPage(currentPage - 1)}
-              className="cursor-pointer px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-            >
-              Previous
-            </button>
-            {/* <span className="px-4 py-2">Page {currentPage} of {totalPages}</span> */}
-            <span className="px-4 py-2">Page 1 of 10</span>
-            <button
-              //   disabled={currentPage === totalPages}
-              //   onClick={() => setCurrentPage(currentPage + 1)}
-              className="cursor-pointer px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-            >
-              Next
-            </button>
+            <ProductTable selectedFilter={selectedFilter} />
           </div>
         </div>
       </div>
