@@ -2,10 +2,31 @@
 import Layout from "../../components/Layout";
 import AddProduct from "../../components/AddProduct";
 import ProductTable from "../../components/ProductTable";
-import { useState } from "react";
+import { getTotalProducts, getTotalCategoryProducts, getTotalLowStockProducts } from "@/lib/supabase/products";
+import { useEffect, useState } from "react";
 
 export default function InventoryPage() {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [count, setCount] = useState<number | null>(null);
+  const [countCategory, setCountCategory] = useState<number | null>(null);
+  const [countLowStock, setCountLowStock] = useState<number | null>(null);
+  const [countNoStock, setCountNoStock] = useState<number | null>(null);
+
+  useEffect(()=>{
+    async function dataOverallProducts() {
+      const resultTotal = await getTotalProducts();
+      const resultCategory = await getTotalCategoryProducts();
+      const resultStock = await getTotalLowStockProducts();
+      if(resultTotal && resultCategory && resultStock){
+        setCount(resultTotal.count);
+        setCountCategory(resultCategory.totalCategories);
+        setCountLowStock(resultStock.lowStockCount);
+        setCountNoStock(resultStock.noStockCount);
+      }
+    }
+    dataOverallProducts();
+  }, []);
+
   return (
     <Layout>
       <div className="flex flex-col gap-3 mr-3">
@@ -16,21 +37,19 @@ export default function InventoryPage() {
             <div className="flex flex-col gap-1">
               <h3 className="text-blue-600">Categories</h3>
               <div className="flex flex-row justify-between">
-                <p>14</p>
+                <p>{countCategory}</p>
               </div>
               <div className="flex flex-row justify-between gap-8 font-medium opacity-65">
-                <p>Last 7 days</p>
+                <p>Total Categories</p>
               </div>
             </div>
             <div className="flex flex-col gap-1">
-              <h3 className="text-yellow-700">Total Products</h3>
+              <h3 className="text-yellow-700">Products</h3>
               <div className="flex flex-row justify-between">
-                <p>14</p>
-                <p>Rp14</p>
+                <p>{count}</p>
               </div>
               <div className="flex flex-row justify-between gap-8 font-medium opacity-65">
-                <p>Last 7 days</p>
-                <p>Revenue</p>
+                <p>Total Products</p>
               </div>
             </div>
             <div className="flex flex-col gap-1">
@@ -45,13 +64,13 @@ export default function InventoryPage() {
               </div>
             </div>
             <div className="flex flex-col gap-1">
-              <h3 className="text-red-400">Low Stocks</h3>
+              <h3 className="text-red-400">Stocks Warning</h3>
               <div className="flex flex-row justify-between">
-                <p>14</p>
-                <p>14</p>
+                <p>{countLowStock}</p>
+                <p>{countNoStock}</p>
               </div>
               <div className="flex flex-row justify-between gap-8 font-medium opacity-65">
-                <p>Last 7 days</p>
+                <p>Low Stock</p>
                 <p>Not in Stock</p>
               </div>
             </div>
