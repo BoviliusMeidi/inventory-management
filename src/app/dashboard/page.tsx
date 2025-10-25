@@ -6,7 +6,7 @@ export default function DashboardPage() {
     <Layout>
       <div className="flex flex-col gap-3 mr-3">
         <div className="flex flex-row gap-2">
-          {/* Sales Overview -- Block 1 */}
+          {/* Sales Overview */}
           <div className="bg-white shadow-md p-4 rounded-md w-2/3">
             <h1 className="text-lg pb-2 tracking-wide">Sales Overview</h1>
             <div className="flex flex-col mt-3">
@@ -14,33 +14,33 @@ export default function DashboardPage() {
                 {[
                   {
                     title: "Sales",
-                    price: "Rp12",
+                    price: "Rp 120.000.000",
                     icon: "/sales.svg",
                   },
                   {
                     title: "Revenue",
-                    price: "Rp14",
+                    price: "Rp 140.000.000",
                     icon: "/revenue.svg",
                   },
                   {
                     title: "Profit",
-                    price: "Rp14",
+                    price: "Rp 140.000.000",
                     icon: "/profit.svg",
                   },
                   {
                     title: "Cost",
-                    price: "Rp14",
+                    price: "Rp 140.000.000",
                     icon: "/cost.svg",
                   },
                 ].map((item, index) => (
-                  <div key={index} className="flex flex-col items-center gap-3">
+                  <div key={index} className="flex flex-col items-center gap-4">
                     <Image
                       src={item.icon}
                       width={40}
                       height={40}
                       alt={item.title}
                     />
-                    <div className="flex flex-row gap-18">
+                    <div className="flex flex-row gap-6">
                       <p className="font-semibold text-gray-600">
                         {item.price}
                       </p>
@@ -51,7 +51,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-          {/* Inventory Summary -- Block 2 */}
+          {/* Inventory Summary */}
           <div className="bg-white shadow-md p-4 rounded-md w-1/3">
             <h1 className="text-lg pb-2 tracking-wide">Inventory Summary</h1>
             <div className="flex flex-col">
@@ -88,7 +88,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="flex flex-row gap-2">
-          {/* Purchase Overview -- Block 1 */}
+          {/* Purchase Overview */}
           <div className="bg-white shadow-md p-4 rounded-md w-2/3">
             <h1 className="text-lg pb-2 tracking-wide">Purchase Overview</h1>
             <div className="flex flex-col mt-3">
@@ -96,33 +96,33 @@ export default function DashboardPage() {
                 {[
                   {
                     title: "Purchase",
-                    price: "12",
+                    price: "Rp 120.000.000",
                     icon: "/purchase.svg",
                   },
                   {
                     title: "Cost",
-                    price: "Rp14",
+                    price: "Rp 140.000.000",
                     icon: "/cost.svg",
                   },
                   {
                     title: "Cancel",
-                    price: "14",
+                    price: "Rp 140.000.000",
                     icon: "/cancel.svg",
                   },
                   {
                     title: "Return",
-                    price: "Rp14",
+                    price: "Rp 120.000.000",
                     icon: "/profit.svg",
                   },
                 ].map((item, index) => (
-                  <div key={index} className="flex flex-col items-center gap-3">
+                  <div key={index} className="flex flex-col items-center gap-4">
                     <Image
                       src={item.icon}
                       width={40}
                       height={40}
                       alt={item.title}
                     />
-                    <div className="flex flex-row gap-18">
+                    <div className="flex flex-row gap-6">
                       <p className="font-semibold text-gray-600">
                         {item.price}
                       </p>
@@ -133,7 +133,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-          {/* Product Summary -- Block 2 */}
+          {/* Product Summary */}
           <div className="bg-white shadow-md p-4 rounded-md w-1/3">
             <h1 className="text-lg pb-2 tracking-wide">Product Summary</h1>
             <div className="flex flex-col">
@@ -141,12 +141,12 @@ export default function DashboardPage() {
                 {[
                   {
                     title: "Number of Suppliers",
-                    price: "864",
+                    price: "86",
                     icon: "/suppliers.svg",
                   },
                   {
                     title: "Number of Categories",
-                    price: "200",
+                    price: "99",
                     icon: "/categories.svg",
                   },
                 ].map((item, index) => (
@@ -171,7 +171,7 @@ export default function DashboardPage() {
         </div>
         <div className="flex flex-row gap-2">
           <div className="bg-white shadow-md p-4 rounded-md w-2/3">
-            {/* Sales & Purchase -- Block 1 */}
+            {/* Sales & Purchase */}
             <div className="flex flex-row justify-between items-center gap-3">
               <h1 className="text-lg pb-2 tracking-wide">Sales & Purchase</h1>
               {/* Button -- Weekly */}
@@ -211,7 +211,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="bg-white shadow-md p-4 rounded-md w-1/3">
-            {/* Order Summary -- Block 2 */}
+            {/* Order Summary */}
             <div className="flex flex-row justify-between items-center gap-3">
               <h1 className="text-lg pb-2 tracking-wide">Order Summary</h1>
             </div>
