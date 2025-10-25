@@ -75,7 +75,7 @@ const AddSupplier = () => {
                   id="contact_number"
                   type="number"
                   placeholder="Enter supplier contact"
-                  className="border rounded-md p-2 w-2/3"
+                  className="border rounded-md p-2 w-2/3 no-spinner"
                   value={form.contact_number}
                   onChange={(e) => setForm({ ...form, contact_number: e.target.value })}
                 />
