@@ -45,7 +45,7 @@ const AddProduct = () => {
         amountStock: "",
         priceBuy: "",
         priceSell: "",
-        supplierID: ""
+        supplierID: "",
       });
       setImageFile(null);
     } catch (err: unknown) {
@@ -71,8 +71,8 @@ const AddProduct = () => {
 
       {/* Product Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 bg-transparent bg-opacity-30">
-          <div className="w-1/3 p-4 border border-gray-300 rounded-md bg-white shadow-lg">
+        <div className="fixed inset-0 z-50 flex justify-center items-start bg-black/30 overflow-y-auto">
+          <div className="flex flex-col justify-start w-full max-w-md mx-auto p-6 mt-10 mb-10 bg-white border border-gray-300 rounded-md shadow-lg">
             <h2 className="text-xl font-semibold mb-4">New Product</h2>
             <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
               {/* Image Upload */}
@@ -122,7 +122,8 @@ const AddProduct = () => {
                   id="supplierID"
                   type="number"
                   placeholder="Enter supplier ID"
-                  className="border rounded-md p-2 w-2/3"
+                  className="border rounded-md p-2 w-2/3 no-spinner"
+                  min={0}
                   value={form.supplierID}
                   onChange={(e) =>
                     setForm({ ...form, supplierID: e.target.value })
@@ -185,7 +186,8 @@ const AddProduct = () => {
                   id="amountStock"
                   type="number"
                   placeholder="Enter amount stock"
-                  className="border rounded-md p-2 w-2/3"
+                  className="border rounded-md p-2 w-2/3 no-spinner"
+                  min={0}
                   value={form.amountStock}
                   onChange={(e) =>
                     setForm({ ...form, amountStock: e.target.value })
@@ -200,7 +202,8 @@ const AddProduct = () => {
                   id="priceBuy"
                   type="number"
                   placeholder="Enter price buy product"
-                  className="border rounded-md p-2 w-2/3"
+                  className="border rounded-md p-2 w-2/3 no-spinner"
+                  min={0}
                   value={form.priceBuy}
                   onChange={(e) =>
                     setForm({ ...form, priceBuy: e.target.value })
@@ -215,7 +218,8 @@ const AddProduct = () => {
                   id="priceSell"
                   type="number"
                   placeholder="Enter price sell product"
-                  className="border rounded-md p-2 w-2/3"
+                  className="border rounded-md p-2 w-2/3 no-spinner"
+                  min={0}
                   value={form.priceSell}
                   onChange={(e) =>
                     setForm({ ...form, priceSell: e.target.value })
