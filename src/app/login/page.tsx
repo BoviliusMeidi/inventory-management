@@ -21,12 +21,29 @@ export default function LoginPage() {
   };
   return (
     <div className="flex flex-row items-center justify-around h-screen">
-      <Image src="/logo-BM.svg" width={300} height={200} alt="Logo BM" />
-      <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <Image src="/logo-BM.svg" width={60} height={30} alt="Logo BM" />
-        <h1 className="font-bold text-4xl">Log in to your account</h1>
+      <Image
+        src="/logo-BM.svg"
+        width={300}
+        height={200}
+        alt="Logo BM"
+        className="hidden sm:block"
+      />
+      <div className="flex flex-col items-center justify-center h-screen gap-4 sm:gap-4 p-8">
+        <Image
+          src="/logo-BM.svg"
+          width={60}
+          height={30}
+          alt="Logo BM"
+          className="block w-24 sm:hidden"
+        />
+        <h1 className="font-bold text-2xl sm:text-4xl">
+          Log in to your account
+        </h1>
         <p className="opacity-70">Welcome back! Please enter your details.</p>
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 w-100">
+        <form
+          onSubmit={handleLogin}
+          className="flex flex-col gap-4 w-full sm:w-100"
+        >
           <div className="flex flex-col">
             <label htmlFor="email" className="text-gray-800 font-semibold">
               Email
@@ -52,11 +69,11 @@ export default function LoginPage() {
             />
           </div>
           <div className="flex flex-row justify-between gap-4">
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 text-xs sm:text-base">
               <input type="checkbox" className="accent-blue-600" />
               Remember for 30 days
             </label>
-            <a href="" className="text-red-700">
+            <a href="" className="text-red-700 text-sm sm:text-base">
               Forgot Password
             </a>
           </div>
