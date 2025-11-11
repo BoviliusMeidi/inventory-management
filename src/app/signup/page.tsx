@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import { useState } from "react";
@@ -13,21 +13,36 @@ export default function SignUpPage() {
     const formData = new FormData(e.target as HTMLFormElement);
     const response = await signup(formData);
 
-    if (response.error){
+    if (response.error) {
       setErrorMessage(response.error);
-    }else{
+    } else {
       window.location.href = "/dashboard";
     }
-  }
+  };
 
   return (
     <div className="flex flex-row items-center justify-around h-screen">
-      <Image src="/logo-BM.svg" width={300} height={200} alt="Logo BM" />
+      <Image
+        src="/logo-BM.svg"
+        width={300}
+        height={200}
+        alt="Logo BM"
+        className="hidden sm:block"
+      />
       <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <Image src="/logo-BM.svg" width={60} height={30} alt="Logo BM" />
-        <h1 className="font-bold text-4xl">Create an account</h1>
+        <Image
+          src="/logo-BM.svg"
+          width={60}
+          height={30}
+          alt="Logo BM"
+          className="block w-24 sm:hidden"
+        />
+        <h1 className="font-bold text-2xl sm:text-4xl">Create an account</h1>
         <p className="opacity-70">Start your 30-day free trial.</p>
-        <form onSubmit={handleSignUp} className="flex flex-col gap-4 w-100">
+        <form
+          onSubmit={handleSignUp}
+          className="flex flex-col gap-4 w-full sm:w-100"
+        >
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-800 font-semibold">
               Name
@@ -42,7 +57,7 @@ export default function SignUpPage() {
           </div>
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-800 font-semibold">
-            Email
+              Email
             </label>
             <input
               id="email"
@@ -63,8 +78,8 @@ export default function SignUpPage() {
               className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
               placeholder="Enter your password"
             />
-            <p className="text-gray-600">
-              Must be at least 8 characters.
+            <p className="text-gray-600 text-xs sm:text-base">
+              *Must be at least 8 characters.
             </p>
           </div>
           {/* Display error message */}
