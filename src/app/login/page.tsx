@@ -73,7 +73,7 @@ export default function LoginPage() {
               <input type="checkbox" className="accent-blue-600" />
               Remember for 30 days
             </label>
-            <a href="" className="text-red-700 text-sm sm:text-base">
+            <a href="/forgot-password" className="text-red-700 text-sm sm:text-base">
               Forgot Password
             </a>
           </div>
@@ -84,15 +84,6 @@ export default function LoginPage() {
           )}
           <button className="cursor-pointer rounded-md p-1 bg-blue-600 text-white">
             Sign In
-          </button>
-          <button className="cursor-pointer border border-gray-400 outline-none rounded-md p-1 focus:ring-1 focus:ring-gray-600 focus:outline-none flex justify-center items-center gap-2">
-            <Image
-              src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-              width={20}
-              height={20}
-              alt="google-logo"
-            />
-            Sign In with Google
           </button>
         </form>
         <div className="flex gap-2">

@@ -9,6 +9,7 @@ export default function SignUpPage() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
 
     const formData = new FormData(e.target as HTMLFormElement);
     const response = await signup(formData);
@@ -90,15 +91,6 @@ export default function SignUpPage() {
           )}
           <button className="cursor-pointer rounded-md p-1 bg-blue-600 text-white">
             Get Started
-          </button>
-          <button className="cursor-pointer border border-gray-400 outline-none rounded-md p-1 focus:ring-1 focus:ring-gray-600 focus:outline-none flex justify-center items-center gap-2">
-            <Image
-              src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-              width={20}
-              height={20}
-              alt="google-logo"
-            />
-            Sign Up with Google
           </button>
         </form>
         <div className="flex gap-2">
