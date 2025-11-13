@@ -1,29 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useActionState } from "react";
 import { login } from "@/lib/actions/auth";
 
+const initialState = { success: "", error: "" };
+
 export default function LoginPage() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isPending, setIsPending] = useState(false);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMessage(null);
-    setIsPending(true);
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const response = await login(formData);
-
-    if (response.error) {
-      setIsPending(false);
-      setErrorMessage(response.error);
-    } else {
-      setIsPending(false);
-      window.location.href = "/dashboard";
-    }
-  };
+  const [state, formAction, isPending] = useActionState(login, initialState);
   return (
     <div className="flex flex-row items-center justify-around h-screen">
       <Image
@@ -46,7 +30,7 @@ export default function LoginPage() {
         </h1>
         <p className="opacity-70">Welcome back! Please enter your details.</p>
         <form
-          onSubmit={handleLogin}
+          action={formAction}
           className="flex flex-col gap-4 w-full sm:w-100"
         >
           <div className="flex flex-col">
@@ -85,9 +69,9 @@ export default function LoginPage() {
               Forgot Password
             </a>
           </div>
-          {errorMessage && (
+          {state.error && (
             <div className="text-red-500">
-              <p>{errorMessage}</p>
+              <p>{state.error}</p>
             </div>
           )}
           <button className="cursor-pointer rounded-md p-1 bg-blue-600 text-white">

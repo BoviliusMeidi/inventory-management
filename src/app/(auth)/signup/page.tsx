@@ -1,25 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect, useState } from "react";
 import { signup } from "@/lib/actions/auth";
 
+const initialState = { success: "", error: "" };
+
 export default function SignUpPage() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [state, formAction, isPending] = useActionState(signup, initialState);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const router = useRouter();
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMessage(null);
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const response = await signup(formData);
-
-    if (response.error) {
-      setErrorMessage(response.error);
-    } else {
-      window.location.href = "/dashboard";
+  useEffect(() => {
+    if (state.success) {
+      setIsRedirecting(true);
+      setTimeout(() => router.push("/login"), 1500);
     }
-  };
+  }, [router, state.success]);
+
+  if (isRedirecting) {
+    return (
+      <div className="flex h-screen items-center justify-center flex-col">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mb-4"></div>
+        <p className="text-gray-700 text-lg font-medium">
+          Redirecting to login...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-row items-center justify-around h-screen">
@@ -41,7 +50,7 @@ export default function SignUpPage() {
         <h1 className="font-bold text-2xl sm:text-4xl">Create an account</h1>
         <p className="opacity-70">Start your 30-day free trial.</p>
         <form
-          onSubmit={handleSignUp}
+          action={formAction}
           className="flex flex-col gap-4 w-full sm:w-100"
         >
           <div className="flex flex-col">
@@ -84,13 +93,17 @@ export default function SignUpPage() {
             </p>
           </div>
           {/* Display error message */}
-          {errorMessage && (
+          {state.error && (
             <div className="text-red-500">
-              <p>{errorMessage}</p>
+              <p>{state.error}</p>
             </div>
           )}
-          <button className="cursor-pointer rounded-md p-1 bg-blue-600 text-white">
-            Get Started
+          <button
+            type="submit"
+            disabled={isPending}
+            className="cursor-pointer rounded-md p-1 bg-blue-600 text-white"
+          >
+            {isPending ? "Signing up..." : "Sign Up"}
           </button>
         </form>
         <div className="flex gap-2">
