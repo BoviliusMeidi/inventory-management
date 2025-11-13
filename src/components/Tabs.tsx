@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getProductById, Product } from "@/lib/supabase/products";
+import { getProductById, Product } from "@/lib/actions/products";
 
 // Info Row Component
 const InfoRow = ({

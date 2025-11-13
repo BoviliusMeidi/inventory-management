@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/app/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export interface Supplier {
   id: string;
@@ -10,7 +10,7 @@ export interface Supplier {
   user_id: string;
 }
 
-export type SupplierInsert = Omit<Supplier, "id" |  "user_id">;
+export type SupplierInsert = Omit<Supplier, "id" | "user_id">;
 
 export const insertSupplier = async (supplier: SupplierInsert) => {
   const supabase = await createClient();
@@ -25,9 +25,9 @@ export const insertSupplier = async (supplier: SupplierInsert) => {
   }
 
   const { error } = await supabase.from("suppliers").insert({
-    supplier_name : supplier.supplier_name,
-    contact_number : supplier.contact_number,
-    purchase_link : supplier.purchase_link,
+    supplier_name: supplier.supplier_name,
+    contact_number: supplier.contact_number,
+    purchase_link: supplier.purchase_link,
     user_id: user.id,
   });
 

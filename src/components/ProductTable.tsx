@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPaginatedProductsByUser, Product } from "@/lib/supabase/products";
+import { getPaginatedProductsByUser, Product } from "@/lib/actions/products";
 import { useRouter } from "next/navigation";
 const PAGE_SIZE = 10;
 
-export default function ProductTable({ selectedFilter }: { selectedFilter: string | null }) {
+export default function ProductTable({
+  selectedFilter,
+}: {
+  selectedFilter: string | null;
+}) {
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -14,7 +18,11 @@ export default function ProductTable({ selectedFilter }: { selectedFilter: strin
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getPaginatedProductsByUser(page, PAGE_SIZE, selectedFilter);
+        const res = await getPaginatedProductsByUser(
+          page,
+          PAGE_SIZE,
+          selectedFilter
+        );
         setProducts(res.data);
         setTotalPages(Math.ceil(res.total / PAGE_SIZE));
       } catch (err) {
@@ -46,19 +54,29 @@ export default function ProductTable({ selectedFilter }: { selectedFilter: strin
         </thead>
         <tbody className="border-t border-gray-300">
           {products.map((product) => (
-           <tr
-           key={product.id}
-           onClick={() => router.push(`/product/${product.id}`)}
-           className="hover:bg-gray-100 cursor-pointer"
-         >
-           <td className="py-2 px-4">{product.supplier?.supplier_name}</td>
-           <td className="py-2 px-4">{product.product_name}</td>
-           <td className="py-2 px-4">{product.product_type}</td>
-           <td className="py-2 px-4">Rp{product.buy_price.toLocaleString("id-ID")}</td>
-           <td className="py-2 px-4">Rp{product.sell_price.toLocaleString("id-ID")}</td>
-           <td className="py-2 px-4">{product.amount_stock}</td>
-           <td className={`py-2 px-4 ${getStockStatus(product.amount_stock).color}`}>{getStockStatus(product.amount_stock).label}</td>
-         </tr>
+            <tr
+              key={product.id}
+              onClick={() => router.push(`/product/${product.id}`)}
+              className="hover:bg-gray-100 cursor-pointer"
+            >
+              <td className="py-2 px-4">{product.supplier?.supplier_name}</td>
+              <td className="py-2 px-4">{product.product_name}</td>
+              <td className="py-2 px-4">{product.product_type}</td>
+              <td className="py-2 px-4">
+                Rp{product.buy_price.toLocaleString("id-ID")}
+              </td>
+              <td className="py-2 px-4">
+                Rp{product.sell_price.toLocaleString("id-ID")}
+              </td>
+              <td className="py-2 px-4">{product.amount_stock}</td>
+              <td
+                className={`py-2 px-4 ${
+                  getStockStatus(product.amount_stock).color
+                }`}
+              >
+                {getStockStatus(product.amount_stock).label}
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>

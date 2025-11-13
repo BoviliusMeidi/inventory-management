@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { login } from "@/app/auth/api/action";
+import { signup } from "@/lib/actions/auth";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const response = await login(formData);
+    const response = await signup(formData);
 
     if (response.error) {
       setErrorMessage(response.error);
@@ -19,6 +20,7 @@ export default function LoginPage() {
       window.location.href = "/dashboard";
     }
   };
+
   return (
     <div className="flex flex-row items-center justify-around h-screen">
       <Image
@@ -28,7 +30,7 @@ export default function LoginPage() {
         alt="Logo BM"
         className="hidden sm:block"
       />
-      <div className="flex flex-col items-center justify-center h-screen gap-4 sm:gap-4 p-8">
+      <div className="flex flex-col items-center justify-center h-screen gap-4">
         <Image
           src="/logo-BM.svg"
           width={60}
@@ -36,16 +38,26 @@ export default function LoginPage() {
           alt="Logo BM"
           className="block w-24 sm:hidden"
         />
-        <h1 className="font-bold text-2xl sm:text-4xl">
-          Log in to your account
-        </h1>
-        <p className="opacity-70">Welcome back! Please enter your details.</p>
+        <h1 className="font-bold text-2xl sm:text-4xl">Create an account</h1>
+        <p className="opacity-70">Start your 30-day free trial.</p>
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleSignUp}
           className="flex flex-col gap-4 w-full sm:w-100"
         >
           <div className="flex flex-col">
-            <label htmlFor="email" className="text-gray-800 font-semibold">
+            <label htmlFor="name" className="text-gray-800 font-semibold">
+              Name
+            </label>
+            <input
+              id="name"
+              type="username"
+              name="display_name"
+              className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="name" className="text-gray-800 font-semibold">
               Email
             </label>
             <input
@@ -67,30 +79,25 @@ export default function LoginPage() {
               className="border border-gray-600 outline-none rounded-md p-2 focus:ring-1 focus:ring-gray-600 focus:outline-none"
               placeholder="Enter your password"
             />
+            <p className="text-gray-600 text-xs sm:text-base">
+              *Must be at least 8 characters.
+            </p>
           </div>
-          <div className="flex flex-row justify-between gap-4">
-            <label className="flex items-center gap-2 text-xs sm:text-base">
-              <input type="checkbox" className="accent-blue-600" />
-              Remember for 30 days
-            </label>
-            <a href="/forgot-password" className="text-red-700 text-sm sm:text-base">
-              Forgot Password
-            </a>
-          </div>
+          {/* Display error message */}
           {errorMessage && (
             <div className="text-red-500">
               <p>{errorMessage}</p>
             </div>
           )}
           <button className="cursor-pointer rounded-md p-1 bg-blue-600 text-white">
-            Sign In
+            Get Started
           </button>
         </form>
         <div className="flex gap-2">
-          <p className="opacity-70">Don&apos;t have an account?</p>
+          <p className="opacity-70">Already have an account?</p>
           <p>
-            <a href="/signup" className="text-blue-700">
-              Sign Up
+            <a href="/login" className="text-blue-700">
+              Log in
             </a>
           </p>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { insertSupplier } from "@/lib/supabase/suppliers";
+import { insertSupplier } from "@/lib/actions/suppliers";
 
 const AddSupplier = () => {
   const [showForm, setShowForm] = useState(false);
@@ -66,7 +66,9 @@ const AddSupplier = () => {
                   placeholder="Enter supplier name"
                   className="border rounded-md p-2 w-2/3"
                   value={form.supplier_name}
-                  onChange={(e) => setForm({ ...form, supplier_name: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, supplier_name: e.target.value })
+                  }
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -77,7 +79,9 @@ const AddSupplier = () => {
                   placeholder="Enter supplier contact"
                   className="border rounded-md p-2 w-2/3 no-spinner"
                   value={form.contact_number}
-                  onChange={(e) => setForm({ ...form, contact_number: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, contact_number: e.target.value })
+                  }
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -88,26 +92,28 @@ const AddSupplier = () => {
                   placeholder="Enter purchase link"
                   className="border rounded-md p-2 w-2/3"
                   value={form.purchase_link}
-                  onChange={(e) => setForm({ ...form, purchase_link: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, purchase_link: e.target.value })
+                  }
                 />
               </div>
               <div className="flex justify-end items-center mt-4 gap-4">
-              <div className="flex justify-end items-center mt-4 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="cursor-pointer border rounded-md border-gray-400 py-2 px-4 hover:underline"
-                >
-                  Discard
-                </button>
-                <button
-                  type="submit"
-                  className="cursor-pointer bg-blue-600 text-white py-2 px-4 rounded-md disabled:opacity-50"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Adding..." : "Add Supplier"}
-                </button>
-              </div>
+                <div className="flex justify-end items-center mt-4 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="cursor-pointer border rounded-md border-gray-400 py-2 px-4 hover:underline"
+                  >
+                    Discard
+                  </button>
+                  <button
+                    type="submit"
+                    className="cursor-pointer bg-blue-600 text-white py-2 px-4 rounded-md disabled:opacity-50"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Adding..." : "Add Supplier"}
+                  </button>
+                </div>
               </div>
             </form>
           </div>

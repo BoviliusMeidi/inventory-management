@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/app/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
@@ -72,4 +72,34 @@ export async function logout() {
 
   revalidatePath("/dashboard", "layout");
   redirect("/login");
+}
+
+export async function resetPasswordEmail(
+  prevState: { error: string; success: string },
+  formData: FormData
+) {
+  const supabase = await createClient();
+  const email = formData.get("email");
+
+  if (typeof email !== "string" || !email) {
+    return {
+      success: "",
+      error: "Email is required.",
+    };
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+
+  if (error) {
+    console.error("Supabase reset error:", error);
+    return {
+      success: "",
+      error: error.message,
+    };
+  }
+
+  return {
+    success: "Password reset link sent! Check your email inbox.",
+    error: "",
+  };
 }

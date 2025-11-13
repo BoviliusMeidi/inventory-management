@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  getPaginatedSuppliersByUser,
-  Supplier,
-} from "@/lib/supabase/suppliers";
+import { getPaginatedSuppliersByUser, Supplier } from "@/lib/actions/suppliers";
 const PAGE_SIZE = 10;
 
 export default function SupplierTable() {
@@ -15,10 +12,7 @@ export default function SupplierTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getPaginatedSuppliersByUser(
-          page,
-          PAGE_SIZE,
-        );
+        const res = await getPaginatedSuppliersByUser(page, PAGE_SIZE);
         setSuppliers(res.data);
         setTotalPages(Math.ceil(res.total / PAGE_SIZE));
       } catch (err) {
@@ -45,7 +39,9 @@ export default function SupplierTable() {
               <td className="py-2 px-4">{supplier.id}</td>
               <td className="py-2 px-4">{supplier.supplier_name}</td>
               <td className="py-2 px-4">+ {supplier.contact_number}</td>
-              <td className="py-2 px-4"><a>{supplier.purchase_link}</a></td>
+              <td className="py-2 px-4">
+                <a>{supplier.purchase_link}</a>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { insertProduct } from "@/lib/supabase/products";
+import { insertProduct } from "@/lib/actions/products";
 
 const AddProduct = () => {
   const [showForm, setShowForm] = useState(false);

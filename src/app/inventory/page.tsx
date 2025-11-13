@@ -2,7 +2,11 @@
 import Layout from "../../components/Layout";
 import AddProduct from "../../components/AddProduct";
 import ProductTable from "../../components/ProductTable";
-import { getTotalProducts, getTotalCategoryProducts, getTotalLowStockProducts } from "@/lib/supabase/products";
+import {
+  getTotalProducts,
+  getTotalCategoryProducts,
+  getTotalLowStockProducts,
+} from "@/lib/actions/products";
 import { useEffect, useState } from "react";
 
 export default function InventoryPage() {
@@ -12,12 +16,12 @@ export default function InventoryPage() {
   const [countLowStock, setCountLowStock] = useState<number | null>(null);
   const [countNoStock, setCountNoStock] = useState<number | null>(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     async function dataOverallProducts() {
       const resultTotal = await getTotalProducts();
       const resultCategory = await getTotalCategoryProducts();
       const resultStock = await getTotalLowStockProducts();
-      if(resultTotal && resultCategory && resultStock){
+      if (resultTotal && resultCategory && resultStock) {
         setCount(resultTotal.count);
         setCountCategory(resultCategory.totalCategories);
         setCountLowStock(resultStock.lowStockCount);
