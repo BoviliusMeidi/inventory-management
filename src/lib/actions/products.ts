@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClientServer } from "@/lib/supabase/server";
 import { Supplier } from "./suppliers";
 
 export interface Product {
@@ -25,7 +25,7 @@ const lowStock = 10;
 export const uploadProductImage = async (
   file: File
 ): Promise<string | null> => {
-  const supabase = await createClient();
+  const supabase = await createClientServer();
 
   const fileName = `${Date.now()}_${file.name}`;
   const filePath = `products/${fileName}`;
@@ -47,7 +47,7 @@ export const uploadProductImage = async (
 };
 
 export const insertProduct = async (product: ProductInsert) => {
-  const supabase = await createClient();
+  const supabase = await createClientServer();
 
   const {
     data: { user },
@@ -87,7 +87,7 @@ export const insertProduct = async (product: ProductInsert) => {
 };
 
 export async function getTotalProducts() {
-  const supabase = await createClient();
+  const supabase = await createClientServer();
   const { error, count } = await supabase
     .from("products")
     .select("*", { count: "exact", head: true });
@@ -101,7 +101,7 @@ export async function getTotalProducts() {
 }
 
 export async function getTotalCategoryProducts() {
-  const supabase = await createClient();
+  const supabase = await createClientServer();
   const { data: categories, error } = await supabase
     .from("products")
     .select("product_category");
@@ -120,7 +120,7 @@ export async function getTotalCategoryProducts() {
 }
 
 export async function getTotalLowStockProducts() {
-  const supabase = await createClient();
+  const supabase = await createClientServer();
   const { count: lowStockCount, error: errorLow } = await supabase
     .from("products")
     .select("*", { count: "exact", head: true })
@@ -141,7 +141,7 @@ export async function getTotalLowStockProducts() {
 }
 
 export const getProductById = async (id: string): Promise<Product | null> => {
-  const supabase = await createClient();
+  const supabase = await createClientServer();
   const { data, error } = await supabase
     .from("products")
     .select(
@@ -173,7 +173,7 @@ export async function getPaginatedProductsByUser(
 ) {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
-  const supabase = await createClient();
+  const supabase = await createClientServer();
 
   let query = supabase
     .from("products")

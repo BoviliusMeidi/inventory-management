@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClientServer } from "@/lib/supabase/server";
 
 export interface Supplier {
   id: string;
@@ -13,7 +13,7 @@ export interface Supplier {
 export type SupplierInsert = Omit<Supplier, "id" | "user_id">;
 
 export const insertSupplier = async (supplier: SupplierInsert) => {
-  const supabase = await createClient();
+  const supabase = await createClientServer();
 
   const {
     data: { user },
@@ -43,7 +43,7 @@ export async function getPaginatedSuppliersByUser(
 ) {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
-  const supabase = await createClient();
+  const supabase = await createClientServer();
 
   const query = supabase
     .from("suppliers")

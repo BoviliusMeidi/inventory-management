@@ -1,10 +1,9 @@
 "use client";
 import SupplierTable from "@/components/SupplierTable";
-import AddSupplier from "../../components/AddSupplier";
-import Layout from "../../components/Layout";
+import AddSupplier from "../../../components/AddSupplier";
+import Layout from "../../../components/Layout";
 
 export default function SuppliersPage() {
-
   return (
     <Layout>
       <div className="flex flex-col gap-3 mr-3">

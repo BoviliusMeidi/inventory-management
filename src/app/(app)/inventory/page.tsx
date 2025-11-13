@@ -1,7 +1,7 @@
 "use client";
-import Layout from "../../components/Layout";
-import AddProduct from "../../components/AddProduct";
-import ProductTable from "../../components/ProductTable";
+import Layout from "../../../components/Layout";
+import AddProduct from "../../../components/AddProduct";
+import ProductTable from "../../../components/ProductTable";
 import {
   getTotalProducts,
   getTotalCategoryProducts,
