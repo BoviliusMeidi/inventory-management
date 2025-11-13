@@ -1,11 +1,9 @@
 "use client";
 import SupplierTable from "@/components/SupplierTable";
 import AddSupplier from "../../../components/AddSupplier";
-import Layout from "../../../components/Layout";
 
 export default function SuppliersPage() {
   return (
-    <Layout>
       <div className="flex flex-col gap-3 mr-3">
         <div className="bg-white shadow-md p-4 rounded-md">
           {/* Products -- Block 1 */}
@@ -21,6 +19,5 @@ export default function SuppliersPage() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }

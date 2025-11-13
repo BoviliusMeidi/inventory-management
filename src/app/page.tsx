@@ -1,9 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClientServer } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  // Membuat koneksi ke Supabase (server-side)
-  const supabase = await createClient();
+  const supabase = await createClientServer();
 
   const {
     data: { user },

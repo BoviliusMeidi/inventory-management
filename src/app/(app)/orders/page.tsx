@@ -1,10 +1,7 @@
 import AddOrder from "../../../components/AddOrder";
-import Layout from "../../../components/Layout";
 
 export default function OrdersPage() {
   return (
-    <Layout>
-      {" "}
       <div className="flex flex-col gap-3 mr-3">
         {/* Overall Orders -- Block 1 */}
         <div className="bg-white shadow-md p-4 rounded-md">
@@ -147,6 +144,5 @@ export default function OrdersPage() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }

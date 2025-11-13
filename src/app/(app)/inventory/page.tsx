@@ -1,5 +1,4 @@
 "use client";
-import Layout from "../../../components/Layout";
 import AddProduct from "../../../components/AddProduct";
 import ProductTable from "../../../components/ProductTable";
 import {
@@ -32,7 +31,6 @@ export default function InventoryPage() {
   }, []);
 
   return (
-    <Layout>
       <div className="flex flex-col gap-3 mr-3">
         {/* Overall Inventory -- Block 1 */}
         <div className="bg-white shadow-md p-4 rounded-md">
@@ -130,6 +128,5 @@ export default function InventoryPage() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }

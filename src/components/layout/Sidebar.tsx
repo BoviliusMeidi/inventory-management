@@ -10,9 +10,9 @@ import {
   ManageStore,
   Settings,
   LogOut,
-} from "./SVG/Sidebar";
-import NavItem from "./NavItem";
-import { logout } from "../lib/actions/auth";
+} from "../SVG/Sidebar";
+import NavItem from "../NavItem";
+import { logout } from "../../lib/actions/auth";
 
 export default function Sidebar() {
   return (

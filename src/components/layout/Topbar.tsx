@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Search, Notification } from "./SVG/Topbar";
+import { Search, Notification } from "../SVG/Topbar";
 
 export default function Topbar() {
   return (
