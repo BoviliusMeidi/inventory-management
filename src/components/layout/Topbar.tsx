@@ -15,7 +15,7 @@ interface TopbarProps {
 
 export default function Topbar({ onMenuClick }: TopbarProps) {
   return (
-    <div className="flex flex-row justify-between items-center gap-2 pl-4 pr-4 py-4 md:pl-6 md:pr-6 md:py-8 bg-white shadow-md">
+    <div className="flex flex-row justify-between items-center gap-2 px-4 py-4 md:pr-6 bg-white shadow-md">
       <button
         onClick={onMenuClick}
         className="md:hidden p-2 -ml-2"
@@ -27,13 +27,12 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         <input
           type="text"
           placeholder="Search product, supplier, order"
-          className="w-full p-2 pl-10 border border-gray-400 outline-none rounded-md focus:ring-1 focus:ring-gray-600 focus:outline-none"
+          className="w-full text-sm sm:text-base p-2 pl-10 border border-gray-400 outline-none rounded-md focus:ring-1 focus:ring-gray-600 focus:outline-none"
         />
         <div className="absolute left-3 top-0 h-full flex items-center">
           <SearchIcon className="w-5 h-5 text-gray-400" />
         </div>
       </div>
-
       <div className="flex items-center gap-3 md:gap-6">
         <div className="relative cursor-pointer">
           <NotificationIcon />
