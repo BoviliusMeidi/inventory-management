@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClientBrowser } from "@/lib/supabase/client";
-import PasswordInput from "@/components/ui/PasswordInput/PasswordInput";
+import PasswordInput from "@/components/ui/PasswordInput";
 import RedirectingSpinner from "@/components/ui/RedirectingSpinner";
 import { Button } from "@/components/ui/Button";
 

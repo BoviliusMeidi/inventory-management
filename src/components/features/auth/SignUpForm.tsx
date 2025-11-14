@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { signup } from "@/lib/actions/auth";
-import PasswordInput from "@/components/ui/PasswordInput/PasswordInput";
+import PasswordInput from "@/components/ui/PasswordInput";
 import InputField from "@/components/ui/InputField";
 import RedirectingSpinner from "@/components/ui/RedirectingSpinner";
 import { Button } from "@/components/ui/Button";
@@ -54,10 +54,7 @@ export default function SignUpForm() {
         </div>
       )}
 
-      <Button
-        type="submit"
-        disabled={isPending}
-      >
+      <Button type="submit" disabled={isPending}>
         {isPending ? "Signing Up..." : "Sign Up"}
       </Button>
     </form>

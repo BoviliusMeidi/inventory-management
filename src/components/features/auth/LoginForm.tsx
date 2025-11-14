@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { login } from "@/lib/actions/auth";
-import PasswordInput from "@/components/ui/PasswordInput/PasswordInput";
+import PasswordInput from "@/components/ui/PasswordInput";
 import InputField from "@/components/ui/InputField";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
@@ -25,7 +25,12 @@ export default function LoginForm() {
       <PasswordInput name="password" placeholder="Enter your password" />
       <div className="flex flex-row justify-between gap-4">
         <label className="flex items-center gap-2 text-xs sm:text-base">
-          <input type="checkbox" name="remember" defaultChecked className="accent-blue-600" />
+          <input
+            type="checkbox"
+            name="remember"
+            defaultChecked
+            className="accent-blue-600"
+          />
           Remember for 30 days
         </label>
         <Link
