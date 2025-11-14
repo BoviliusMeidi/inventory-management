@@ -1,13 +1,28 @@
+"use client";
+
+import { useState } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  let mainContentClasses = "md:ml-60 w-full h-screen overflow-y-auto";
+
+  if (isMobileSidebarOpen) {
+    mainContentClasses += " overflow-hidden";
+  }
+
   return (
     <div className="flex">
-      <Sidebar />
-      <div className="ml-60 w-full ">
-        <Topbar />
-        <main className="pt-3">{children}</main>
+      <Sidebar
+        isOpen={isMobileSidebarOpen}
+        setIsOpen={setIsMobileSidebarOpen}
+      />
+
+      <div className={mainContentClasses}>
+        <Topbar onMenuClick={() => setIsMobileSidebarOpen(true)} />
+        <main className="pt-3 p-4 md:p-6">{children}</main>
       </div>
     </div>
   );
