@@ -17,3 +17,5 @@ export * from "./ProfileIcon";
 
 export * from "./EyeIcon";
 export * from "./EyeSlashIcon";
+
+export * from "./FilterIcon";
