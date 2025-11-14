@@ -1,14 +1,20 @@
 "use client";
-
 import * as React from "react";
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "secondary";
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, ...props }, ref) => {
-    const baseStyles = "cursor-pointer rounded-md p-2 bg-blue-600 text-white ";
+  ({ className, children, variant = "primary", ...props }, ref) => {
+    const baseStyles = "cursor-pointer rounded-md py-2 px-4";
     const disabledStyles = "disabled:opacity-50 disabled:cursor-not-allowed";
-    const mergedClasses = [baseStyles, disabledStyles, className]
+    const variantStyles =
+      variant === "primary"
+        ? "bg-blue-600 text-white"
+        : "border border-gray-400 hover:underline";
+    const mergedClasses = [baseStyles, disabledStyles, variantStyles, className]
       .filter(Boolean)
       .join(" ");
 
