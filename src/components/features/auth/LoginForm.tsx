@@ -5,6 +5,7 @@ import { login } from "@/lib/actions/auth";
 import PasswordInput from "@/components/ui/PasswordInput/PasswordInput";
 import InputField from "@/components/ui/InputField";
 import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 
 const initialState = { success: "", error: "" };
 
@@ -24,15 +25,15 @@ export default function LoginForm() {
       <PasswordInput name="password" placeholder="Enter your password" />
       <div className="flex flex-row justify-between gap-4">
         <label className="flex items-center gap-2 text-xs sm:text-base">
-          <input type="checkbox" className="accent-blue-600" />
+          <input type="checkbox" name="remember" defaultChecked className="accent-blue-600" />
           Remember for 30 days
         </label>
-        <a
+        <Link
           href="/forgot-password"
           className="text-red-700 text-sm sm:text-base"
         >
           Forgot Password
-        </a>
+        </Link>
       </div>
       {state.error && (
         <div className="text-red-500">

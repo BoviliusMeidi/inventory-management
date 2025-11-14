@@ -8,11 +8,16 @@ export async function login(
   prevState: { success: string; error: string },
   formData: FormData
 ) {
-  const supabase = await createClientServer();
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const remember = !!formData.get("remember");
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const supabase = await createClientServer(remember);
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   if (error) {
     return { success: "", error: "Invalid email or password." };
