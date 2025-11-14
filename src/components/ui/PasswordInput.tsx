@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import Eye from "./eye.svg";
-import EyeSlash from "./eye-slash.svg";
+import { EyeIcon, EyeSlashIcon } from "@/components/icons";
 
 interface PasswordInputProps {
   name: string;
@@ -39,13 +37,11 @@ export default function PasswordInput({
           aria-label={showPassword ? "Hide password" : "Show password"}
           className="absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-700"
         >
-          <Image
-            src={showPassword ? EyeSlash : Eye}
-            alt={showPassword ? "Hide password" : "Show password"}
-            width={20}
-            height={20}
-            className="opacity-70 hover:opacity-100 transition-opacity"
-          />
+          {showPassword ? (
+            <EyeSlashIcon className="opacity-70 hover:opacity-100 transition-opacity w-8 h-8" />
+          ) : (
+            <EyeIcon className="opacity-70 hover:opacity-100 transition-opacity w-8 h-8" />
+          )}
         </button>
       </div>
       {hint && (
