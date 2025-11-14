@@ -19,3 +19,6 @@ export * from "./EyeIcon";
 export * from "./EyeSlashIcon";
 
 export * from "./FilterIcon";
+
+export * from "./EditIcon";
+export * from "./DownloadIcon";
