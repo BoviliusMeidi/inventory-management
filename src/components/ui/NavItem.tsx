@@ -1,5 +1,8 @@
+"use client";
+
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface NavItemProps {
   href: string;
@@ -14,7 +17,7 @@ const NavItem: React.FC<NavItemProps> = ({ href, icon, label }) => {
   const pathname = usePathname();
   const isActive = pathname === href;
   return (
-    <a
+    <Link
       href={href}
       className={`cursor-pointer flex items-center gap-4 p-2 text-lg ${
         isActive ? activeButton : nonActiveButton
@@ -22,7 +25,7 @@ const NavItem: React.FC<NavItemProps> = ({ href, icon, label }) => {
     >
       {icon}
       {label}
-    </a>
+    </Link>
   );
 };
 
