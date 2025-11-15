@@ -1,6 +1,8 @@
 "use server";
 
 import { createClientServer } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
+import { sanitizePhoneNumber } from "../utils/formatters";
 
 export interface Supplier {
   id: string;
@@ -10,9 +12,31 @@ export interface Supplier {
   user_id: string;
 }
 
-export type SupplierInsert = Omit<Supplier, "id" | "user_id">;
+type FormState = {
+  success: boolean;
+  message: string;
+};
 
-export const insertSupplier = async (supplier: SupplierInsert) => {
+export async function getAllSuppliers() {
+  const supabase = await createClientServer();
+
+  const { data, error } = await supabase
+    .from("suppliers")
+    .select("id, supplier_name, contact_number")
+    .order("supplier_name");
+
+  if (error) {
+    console.error("Error fetching all suppliers:", error.message);
+    return [];
+  }
+
+  return data;
+}
+
+export const insertSupplier = async (
+  previousState: FormState,
+  formData: FormData
+): Promise<FormState> => {
   const supabase = await createClientServer();
 
   const {
@@ -21,20 +45,44 @@ export const insertSupplier = async (supplier: SupplierInsert) => {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    throw new Error("User not authenticated");
+    return { success: false, message: "User not authenticated." };
+  }
+
+  const supplier_name = formData.get("supplier_name") as string;
+  const contact_number_str = formData.get("contact_number") as string;
+  const purchase_link = formData.get("purchase_link") as string;
+
+  const sanitized_contact = sanitizePhoneNumber(contact_number_str);
+
+  if (!supplier_name || !sanitized_contact) {
+    return {
+      success: false,
+      message: "Supplier name and contact are required.",
+    };
+  }
+
+  const contact_number = parseInt(sanitized_contact, 10);
+  if (isNaN(contact_number)) {
+    return { success: false, message: "Invalid contact number format." };
   }
 
   const { error } = await supabase.from("suppliers").insert({
-    supplier_name: supplier.supplier_name,
-    contact_number: supplier.contact_number,
-    purchase_link: supplier.purchase_link,
+    supplier_name: supplier_name,
+    contact_number: contact_number,
+    purchase_link: purchase_link,
     user_id: user.id,
   });
 
   if (error) {
     console.error("Failed to insert supplier:", error.message);
-    throw new Error("Failed to insert supplier");
+    return {
+      success: false,
+      message: `Failed to insert supplier: ${error.message}`,
+    };
   }
+
+  revalidatePath("/suppliers");
+  return { success: true, message: "Supplier added successfully!" };
 };
 
 export async function getPaginatedSuppliersByUser(
