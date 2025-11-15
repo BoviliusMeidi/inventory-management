@@ -9,6 +9,7 @@ import { FilterIcon } from "@/components/icons/FilterIcon";
 type SupplierOption = {
   id: string;
   supplier_name: string;
+  contact_number: number;
 };
 
 const filterOptions: DropdownOption[] = [

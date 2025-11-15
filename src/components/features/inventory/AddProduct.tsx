@@ -8,6 +8,7 @@ import LabeledInput from "@/components/ui/LabeledInput";
 import LabeledSelect from "@/components/ui/LabeledSelect";
 import ImageDropzone from "@/components/ui/ImageDropzone";
 import SearchableSelect from "@/components/ui/SearchableSelect";
+import { formatDisplayPhoneNumber } from "@/lib/utils/formatters";
 
 const initialState: { success: boolean; message: string } = {
   success: false,
@@ -17,6 +18,7 @@ const initialState: { success: boolean; message: string } = {
 type SupplierOption = {
   id: string;
   supplier_name: string;
+  contact_number : number;
 };
 
 const AddProduct = ({ suppliers }: { suppliers: SupplierOption[] }) => {
@@ -26,10 +28,14 @@ const AddProduct = ({ suppliers }: { suppliers: SupplierOption[] }) => {
     insertProduct,
     initialState
   );
-  const [, setSelectedSupplierId] = useState<string | null>(
-    null
-  );
+  const [, setSelectedSupplierId] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const supplierOptions = suppliers.map((supplier) => ({
+    id: supplier.id,
+    main_text: supplier.supplier_name,
+    secondary_text: String(formatDisplayPhoneNumber(supplier.contact_number))
+  }));
 
   useEffect(() => {
     if (state.message) {
@@ -103,7 +109,7 @@ const AddProduct = ({ suppliers }: { suppliers: SupplierOption[] }) => {
           <SearchableSelect
             label="Supplier"
             name="supplier_id"
-            options={suppliers}
+            options={supplierOptions}
             onSelect={setSelectedSupplierId}
             required
           />
