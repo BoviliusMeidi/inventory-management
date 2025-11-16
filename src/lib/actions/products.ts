@@ -1,7 +1,8 @@
 "use server";
 
 import { createClientServer } from "@/lib/supabase/server";
-import { Supplier } from "./suppliers";
+import { Supplier } from "@/lib/actions/suppliers";
+import { revalidatePath } from "next/cache";
 
 export interface Product {
   id: string;
@@ -18,7 +19,10 @@ export interface Product {
   supplier?: Supplier;
 }
 
-export type ProductInsert = Omit<Product, "id" | "product_image" | "user_id">;
+type FormState = {
+  success: boolean;
+  message: string;
+};
 
 const lowStock = 10;
 
@@ -46,7 +50,10 @@ export const uploadProductImage = async (
   return data.publicUrl;
 };
 
-export const insertProduct = async (product: ProductInsert) => {
+export const insertProduct = async (
+  previousState: FormState,
+  formData: FormData
+): Promise<FormState> => {
   const supabase = await createClientServer();
 
   const {
@@ -55,35 +62,72 @@ export const insertProduct = async (product: ProductInsert) => {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    throw new Error("User not authenticated");
+    return { success: false, message: "User not authenticated." };
+  }
+
+  const name = formData.get("product_name") as string;
+  const type = formData.get("product_type") as string;
+  const category = formData.get("product_category") as string;
+  const amountStockStr = formData.get("amount_stock") as string;
+  const priceBuyStr = formData.get("buy_price") as string;
+  const priceSellStr = formData.get("sell_price") as string;
+  const supplierIDStr = formData.get("supplier_id") as string;
+  const imageFile = formData.get("image_file") as File;
+
+  if (
+    !name ||
+    !type ||
+    !category ||
+    !amountStockStr ||
+    !priceBuyStr ||
+    !priceSellStr ||
+    !supplierIDStr
+  ) {
+    return { success: false, message: "All fields are required." };
+  }
+
+  const amount_stock = parseFloat(amountStockStr);
+  const buy_price = parseFloat(priceBuyStr);
+  const sell_price = parseFloat(priceSellStr);
+  const supplier_id = parseInt(supplierIDStr, 10);
+
+  if (
+    isNaN(amount_stock) ||
+    isNaN(buy_price) ||
+    isNaN(sell_price) ||
+    isNaN(supplier_id)
+  ) {
+    return { success: false, message: "Invalid number format." };
   }
 
   let imageUrl = "";
-
-  if (product.image_file) {
-    const uploadedUrl = await uploadProductImage(product.image_file);
+  if (imageFile && imageFile.size > 0) {
+    const uploadedUrl = await uploadProductImage(imageFile);
     if (!uploadedUrl) {
-      throw new Error("Image upload failed");
+      return { success: false, message: "Image upload failed." };
     }
     imageUrl = uploadedUrl;
   }
 
   const { error } = await supabase.from("products").insert({
-    product_name: product.product_name,
-    product_type: product.product_type,
-    product_category: product.product_category,
-    amount_stock: product.amount_stock,
-    buy_price: product.buy_price,
-    sell_price: product.sell_price,
+    product_name: name,
+    product_type: type,
+    product_category: category,
+    amount_stock: amount_stock,
+    buy_price: buy_price,
+    sell_price: sell_price,
     product_image: imageUrl,
     user_id: user.id,
-    supplier_id: product.supplier_id,
+    supplier_id: supplier_id,
   });
 
   if (error) {
     console.error("Failed to insert product:", error.message);
-    throw new Error("Failed to insert product");
+    return { success: false, message: "Failed to insert product." };
   }
+
+  revalidatePath("/inventory");
+  return { success: true, message: "Product added successfully!" };
 };
 
 export async function getTotalProducts() {
@@ -141,6 +185,13 @@ export async function getTotalLowStockProducts() {
 }
 
 export const getProductById = async (id: string): Promise<Product | null> => {
+  const numericId = parseInt(id, 10);
+
+  if (isNaN(numericId)) {
+    console.error("Invalid product ID:", id);
+    return null;
+  }
+
   const supabase = await createClientServer();
   const { data, error } = await supabase
     .from("products")
@@ -155,7 +206,7 @@ export const getProductById = async (id: string): Promise<Product | null> => {
       )
     `
     )
-    .match({ id: id })
+    .match({ id: numericId })
     .single();
 
   if (error) {
