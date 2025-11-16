@@ -3,7 +3,11 @@
 
 import { useState, useTransition } from "react";
 import { Order, updateOrder, deleteOrder } from "@/lib/actions/orders";
-import { formatCurrency, getOrderStatus } from "@/lib/utils/formatters";
+import {
+  formatCurrency,
+  formatDateForInput,
+  getOrderStatus,
+} from "@/lib/utils/formatters";
 import { Button } from "@/components/ui/Button";
 import { EditIcon, CloseIcon, DeleteIcon, SaveIcon } from "@/components/icons";
 
@@ -26,9 +30,7 @@ export default function OrderRow({
 
   const [editData, setEditData] = useState({
     status: order.status,
-    date: order.expected_delivery_date
-      ? new Date(order.expected_delivery_date).toISOString().split("T")[0]
-      : "",
+    date: formatDateForInput(order.expected_delivery_date),
   });
 
   const handleSave = async () => {
@@ -71,7 +73,9 @@ export default function OrderRow({
 
   return (
     <tr className="hover:bg-gray-100">
-      <td className="py-2 px-2 md:px-4 hidden md:table-cell font-medium">#{order.id}</td>
+      <td className="py-2 px-2 md:px-4 hidden md:table-cell font-medium">
+        #{order.id}
+      </td>
       <td className="py-2 px-2 md:px-4">
         {order.supplier?.supplier_name ?? "N/A"}
       </td>
@@ -131,7 +135,7 @@ export default function OrderRow({
               disabled={isSaving || isDeleting}
               className="text-xs p-1"
             >
-              {isSaving ? "..." : <SaveIcon className="w-4 h-4 text-white"/>}
+              {isSaving ? "..." : <SaveIcon className="w-4 h-4 text-white" />}
             </Button>
             <Button
               variant="secondary"
@@ -158,7 +162,11 @@ export default function OrderRow({
               className="flex items-center gap-1 text-xs text-red-500"
               disabled={isCompleted || isDeleting}
             >
-              {isDeleting ? "..." : <DeleteIcon className="w-4 h-4 text-red-500" />}
+              {isDeleting ? (
+                "..."
+              ) : (
+                <DeleteIcon className="w-4 h-4 text-red-500" />
+              )}
             </Button>
           </div>
         )}
