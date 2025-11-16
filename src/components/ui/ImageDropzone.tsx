@@ -8,10 +8,35 @@ interface ImageDropzoneProps {
   previewUrl: string | null;
 }
 
-export default function ImageDropzone({ name, onChange, previewUrl }: ImageDropzoneProps) {
+const MAX_FILE_SIZE_MB = 1;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
+export default function ImageDropzone({
+  name,
+  onChange,
+  previewUrl,
+}: ImageDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (file: File | null) => {
+    setError(null);
+
+    if (!file) {
+      onChange(null);
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      const errorMsg = `File is too large. Max size is ${MAX_FILE_SIZE_MB}MB.`;
+      setError(errorMsg);
+
+      setTimeout(() => setError(null), 3000);
+
+      onChange(null);
+      return;
+    }
+
     onChange(file);
   };
 
@@ -61,6 +86,9 @@ export default function ImageDropzone({ name, onChange, previewUrl }: ImageDropz
           onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
         />
       </label>
+      {error && (
+        <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+      )}
     </div>
   );
 }
