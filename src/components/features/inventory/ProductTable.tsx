@@ -8,8 +8,10 @@ import ProductRow from "./ProductRow";
 
 export default function ProductTable({
   selectedFilter,
+  refreshKey,
 }: {
   selectedFilter: string | null;
+  refreshKey: number;
 }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -30,7 +32,7 @@ export default function ProductTable({
       }
     };
     fetchData();
-  }, [currentPage, selectedFilter]);
+  }, [currentPage, selectedFilter, refreshKey]);
 
   return (
     <div className="pt-2 overflow-hidden">
@@ -51,7 +53,10 @@ export default function ProductTable({
           </thead>
           <tbody className="text-sm sm:text-base border-t border-gray-300">
             {products.map((product) => (
-              <ProductRow key={product.id} product={product} />
+              <ProductRow
+                key={product.id}
+                product={product}
+              />
             ))}
           </tbody>
         </table>

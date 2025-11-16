@@ -28,6 +28,11 @@ export default function InventoryClientWrapper({
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
+  const [refreshKey, setRefreshKey] = useState(0);
+  const triggerRefresh = () => {
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -52,7 +57,7 @@ export default function InventoryClientWrapper({
       <div className="flex flex-row justify-between items-center">
         <h1 className="sm:text-lg tracking-wide">Products</h1>
         <div className="flex flex-row gap-4 tracking-wide">
-          <AddProduct suppliers={suppliers}/>
+          <AddProduct suppliers={suppliers} onOrderChange={triggerRefresh} />
           <FilterDropdown
             label="Filters"
             icon={<FilterIcon className="w-4 h-4 text-gray-600" />}
@@ -61,7 +66,10 @@ export default function InventoryClientWrapper({
           />
         </div>
       </div>
-      <ProductTable selectedFilter={selectedFilter} />
+      <ProductTable
+        selectedFilter={selectedFilter}
+        refreshKey={refreshKey}
+      />
     </div>
   );
 }

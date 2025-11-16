@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useActionState, useEffect, useRef } from "react";
+import {
+  useState,
+  useActionState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { insertProduct } from "@/lib/actions/products";
 import { Button } from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
@@ -18,10 +24,16 @@ const initialState: { success: boolean; message: string } = {
 type SupplierOption = {
   id: string;
   supplier_name: string;
-  contact_number : number;
+  contact_number: number;
 };
 
-const AddProduct = ({ suppliers }: { suppliers: SupplierOption[] }) => {
+const AddProduct = ({
+  suppliers,
+  onOrderChange,
+}: {
+  suppliers: SupplierOption[];
+  onOrderChange: () => void;
+}) => {
   const [showForm, setShowForm] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [state, formAction, isPending] = useActionState(
@@ -30,29 +42,19 @@ const AddProduct = ({ suppliers }: { suppliers: SupplierOption[] }) => {
   );
   const [, setSelectedSupplierId] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const processedStateRef = useRef(initialState);
 
   const supplierOptions = suppliers.map((supplier) => ({
     id: supplier.id,
     main_text: supplier.supplier_name,
-    secondary_text: String(formatDisplayPhoneNumber(supplier.contact_number))
+    secondary_text: String(formatDisplayPhoneNumber(supplier.contact_number)),
   }));
 
-  useEffect(() => {
-    if (state.message) {
-      alert(state.message);
-      if (state.success) {
-        setShowForm(false);
-        setPreviewUrl(null);
-        formRef.current?.reset();
-      }
-    }
-  }, [state]);
-
-  const handleDiscard = () => {
-    setPreviewUrl(null);
+  const handleDiscard = useCallback(() => {
     formRef.current?.reset();
+    setPreviewUrl(null);
     setShowForm(false);
-  };
+  }, []);
 
   const handleFileChange = (file: File | null) => {
     if (file) {
@@ -61,6 +63,17 @@ const AddProduct = ({ suppliers }: { suppliers: SupplierOption[] }) => {
       setPreviewUrl(null);
     }
   };
+
+  useEffect(() => {
+    if (state !== processedStateRef.current && state.message) {
+      alert(state.message);
+      processedStateRef.current = state;
+      if (state.success) {
+        handleDiscard();
+        onOrderChange();
+      }
+    }
+  }, [state, onOrderChange, handleDiscard]);
 
   return (
     <>
