@@ -184,6 +184,26 @@ export async function getTotalLowStockProducts() {
   }
 }
 
+export async function getTotalInventoryValue() {
+  const supabase = await createClientServer();
+  const { data, error } = await supabase
+    .from("products")
+    .select("buy_price, amount_stock");
+
+  if (error) {
+    console.error("Error fetching inventory value data: ", error.message);
+    return null;
+  }
+
+  const totalValue = data.reduce((acc, product) => {
+    const buyPrice = product.buy_price || 0;
+    const stock = product.amount_stock || 0;
+    return acc + buyPrice * stock;
+  }, 0);
+
+  return { totalValue };
+}
+
 export const getProductById = async (id: string): Promise<Product | null> => {
   const numericId = parseInt(id, 10);
 
