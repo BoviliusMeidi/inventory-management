@@ -21,7 +21,7 @@ type ProductOption = {
 };
 
 const filterOptions: DropdownOption[] = [
-  { label: "All", value: null },
+  { label: "All", value: "All" },
   { label: "Pending", value: "Pending" },
   { label: "Shipped", value: "Shipped" },
   { label: "Completed", value: "Completed" },
@@ -45,7 +45,11 @@ export default function OrderClientWrapper({
       <div className="flex flex-row justify-between items-center">
         <h1 className="sm:text-lg tracking-wide">Orders</h1>
         <div className="flex flex-row gap-4 tracking-wide">
-          <AddOrder products={products} suppliers={suppliers} onOrderChange={triggerRefresh}/>
+          <AddOrder
+            products={products}
+            suppliers={suppliers}
+            onOrderChange={triggerRefresh}
+          />
           <FilterDropdown
             label="Filters"
             icon={<FilterIcon className="w-4 h-4 text-gray-600" />}
@@ -54,7 +58,11 @@ export default function OrderClientWrapper({
           />
         </div>
       </div>
-      <OrderTable selectedFilter={selectedFilter} refreshKey={refreshKey} onOrderChange={triggerRefresh}/>
+      <OrderTable
+        selectedFilter={selectedFilter}
+        refreshKey={refreshKey}
+        onOrderChange={triggerRefresh}
+      />
     </div>
   );
 }
