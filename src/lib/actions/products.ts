@@ -275,3 +275,19 @@ export async function getPaginatedProductsByUser(
 
   return { data, total: count ?? 0 };
 }
+
+export async function getAllProductsForSelect() {
+  const supabase = await createClientServer();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, product_name, product_type, buy_price, supplier_id")
+    .order("product_name");
+
+  if (error) {
+    console.error("Error fetching all products:", error.message);
+    return [];
+  }
+
+  return data;
+}
