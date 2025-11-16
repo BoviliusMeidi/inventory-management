@@ -22,3 +22,4 @@ export * from "./FilterIcon";
 
 export * from "./EditIcon";
 export * from "./DownloadIcon";
+export * from "./DeleteIcon";
