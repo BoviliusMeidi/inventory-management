@@ -4,11 +4,30 @@ import { useState } from "react";
 import { Product } from "@/lib/actions/products";
 import ProductOverviewTab from "../features/product/ProductOverviewTab";
 
+type StockStats = {
+  pendingStock: number;
+  shippedStock: number;
+};
+
 interface TabsProps {
   product: Product;
+  isEditing: boolean;
+  stockStats: StockStats | null;
+  newImageFile: File | null;
+  setNewImageFile: (file: File | null) => void;
+  newImagePreviewUrl: string | null;
+  setNewImagePreviewUrl: (url: string | null) => void;
 }
 
-export default function Tabs({ product }: TabsProps) {
+export default function Tabs({
+  product,
+  isEditing,
+  stockStats,
+  newImageFile,
+  setNewImageFile,
+  newImagePreviewUrl,
+  setNewImagePreviewUrl,
+}: TabsProps) {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
@@ -17,12 +36,14 @@ export default function Tabs({ product }: TabsProps) {
         {["overview", "purchases", "history"].map((tab) => (
           <button
             key={tab}
+            type="button"
             onClick={() => setActiveTab(tab)}
+            disabled={isEditing}
             className={`cursor-pointer pb-2 text-sm sm:text-lg tracking-wide capitalize ${
               activeTab === tab
                 ? "border-b-2 border-blue-600 text-blue-600 font-semibold"
                 : "text-gray-500"
-            }`}
+            } ${isEditing ? "cursor-not-allowed opacity-50" : ""}`}
           >
             {tab}
           </button>
@@ -30,9 +51,39 @@ export default function Tabs({ product }: TabsProps) {
       </div>
 
       <div className="mt-4">
-        {activeTab === "overview" && <ProductOverviewTab product={product} />}
-        {activeTab === "purchases" && <ProductOverviewTab product={product} />}
-        {activeTab === "history" && <ProductOverviewTab product={product} />}
+        {activeTab === "overview" && (
+          <ProductOverviewTab
+            product={product}
+            isEditing={isEditing}
+            stockStats={stockStats}
+            newImageFile={newImageFile}
+            setNewImageFile={setNewImageFile}
+            newImagePreviewUrl={newImagePreviewUrl}
+            setNewImagePreviewUrl={setNewImagePreviewUrl}
+          />
+        )}
+        {activeTab === "purchases" && (
+          <ProductOverviewTab
+            product={product}
+            isEditing={isEditing}
+            stockStats={stockStats}
+            newImageFile={newImageFile}
+            setNewImageFile={setNewImageFile}
+            newImagePreviewUrl={newImagePreviewUrl}
+            setNewImagePreviewUrl={setNewImagePreviewUrl}
+          />
+        )}
+        {activeTab === "history" && (
+          <ProductOverviewTab
+            product={product}
+            isEditing={isEditing}
+            stockStats={stockStats}
+            newImageFile={newImageFile}
+            setNewImageFile={setNewImageFile}
+            newImagePreviewUrl={newImagePreviewUrl}
+            setNewImagePreviewUrl={setNewImagePreviewUrl}
+          />
+        )}
       </div>
     </div>
   );
