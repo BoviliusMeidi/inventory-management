@@ -22,7 +22,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className={mainContentClasses}>
         <Topbar onMenuClick={() => setIsMobileSidebarOpen(true)} />
-        <main className="pt-3 p-4 md:p-6">{children}</main>
+        <main className="pt-3 mx-3 md:mx-0">{children}</main>
       </div>
     </div>
   );
