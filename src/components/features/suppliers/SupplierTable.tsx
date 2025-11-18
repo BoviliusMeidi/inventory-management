@@ -25,26 +25,30 @@ export default function SupplierTable() {
   }, [currentPage]);
 
   return (
-    <div className="pt-2">
-      <table className="min-w-full bg-white text-left">
-        <thead className="text-sm sm:text-base">
-          <tr>
-            <th className="py-2 px-4">Supplier Name</th>
-            <th className="py-2 px-4">Contact Number</th>
-            <th className="py-2 px-4">Purchase Link</th>
-          </tr>
-        </thead>
-        <tbody className="text-sm sm:text-base border-t border-gray-300">
-          {suppliers.map((supplier) => (
-            <SupplierRow key={supplier.id} supplier={supplier} />
-          ))}
-        </tbody>
-      </table>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+    <div className="pt-2 overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white text-left">
+          <thead className="text-sm sm:text-base">
+            <tr>
+              <th className="py-2 px-4">Supplier Name</th>
+              <th className="py-2 px-4">Address</th>
+              <th className="py-2 px-4">Contact Number</th>
+              <th className="py-2 px-4">Purchase Link</th>
+              <th className="py-2 px-4">Action</th>
+            </tr>
+          </thead>
+          <tbody className="text-sm sm:text-base border-t border-gray-300">
+            {suppliers.map((supplier) => (
+              <SupplierRow key={supplier.id} supplier={supplier} />
+            ))}
+          </tbody>
+        </table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }
