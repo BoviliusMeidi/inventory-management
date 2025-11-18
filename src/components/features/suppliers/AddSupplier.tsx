@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useActionState, useEffect, useRef } from "react";
+import {
+  useState,
+  useActionState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { insertSupplier } from "@/lib/actions/suppliers";
 import { Button } from "@/components/ui/Button";
 import LabeledInput from "@/components/ui/LabeledInput";
@@ -11,8 +17,9 @@ const initialState: { success: boolean; message: string } = {
   message: "",
 };
 
-const AddSupplier = () => {
+const AddSupplier = ({ onOrderChange }: { onOrderChange: () => void }) => {
   const [showForm, setShowForm] = useState(false);
+  const processedStateRef = useRef(initialState);
 
   const [state, formAction, isPending] = useActionState(
     insertSupplier,
@@ -21,20 +28,20 @@ const AddSupplier = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    if (state.message) {
-      alert(state.message);
-      if (state.success) {
-        setShowForm(false);
-        formRef.current?.reset();
-      }
-    }
-  }, [state]);
-
-  const handleDiscard = () => {
+  const handleDiscard = useCallback(() => {
     formRef.current?.reset();
     setShowForm(false);
-  };
+  }, []);
+  useEffect(() => {
+    if (state !== processedStateRef.current && state.message) {
+      alert(state.message);
+      processedStateRef.current = state;
+      if (state.success) {
+        handleDiscard();
+        onOrderChange();
+      }
+    }
+  }, [state, onOrderChange, handleDiscard]);
 
   return (
     <div className="">

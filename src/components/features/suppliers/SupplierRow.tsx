@@ -15,14 +15,16 @@ import {
 import { copyToClipboard } from "@/lib/utils/clipboard";
 import { Button } from "@/components/ui/Button";
 import { EditIcon, DeleteIcon, SaveIcon, CloseIcon } from "@/components/icons";
-import { useRouter } from "next/navigation";
 
 interface SupplierRowProps {
   supplier: Supplier;
+  onOrderChange: () => void;
 }
 
-export default function SupplierRow({ supplier }: SupplierRowProps) {
-  const router = useRouter();
+export default function SupplierRow({
+  supplier,
+  onOrderChange,
+}: SupplierRowProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -63,8 +65,7 @@ export default function SupplierRow({ supplier }: SupplierRowProps) {
       if (result.success) {
         setIsEditing(false);
         alert("Supplier updated!");
-        router.refresh();
-        window.location.reload();
+        onOrderChange();
       } else {
         alert(result.message);
       }
@@ -78,8 +79,7 @@ export default function SupplierRow({ supplier }: SupplierRowProps) {
       const result = await deleteSupplier(supplier.id);
       if (result.success) {
         alert("Supplier deleted!");
-        router.refresh();
-        window.location.reload();
+        onOrderChange();
       } else {
         alert(result.message);
       }

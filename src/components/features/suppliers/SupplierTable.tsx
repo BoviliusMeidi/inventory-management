@@ -6,7 +6,13 @@ import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
 import SupplierRow from "./SupplierRow";
 
-export default function SupplierTable() {
+export default function SupplierTable({
+  refreshKey,
+  onOrderChange,
+}: {
+  refreshKey: number;
+  onOrderChange: () => void;
+}) {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const { currentPage, handlePageChange } = usePagination();
@@ -22,7 +28,7 @@ export default function SupplierTable() {
       }
     };
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, refreshKey]);
 
   return (
     <div className="pt-2 overflow-hidden">
@@ -39,7 +45,11 @@ export default function SupplierTable() {
           </thead>
           <tbody className="text-sm sm:text-base border-t border-gray-300">
             {suppliers.map((supplier) => (
-              <SupplierRow key={supplier.id} supplier={supplier} />
+              <SupplierRow
+                key={supplier.id}
+                onOrderChange={onOrderChange}
+                supplier={supplier}
+              />
             ))}
           </tbody>
         </table>
