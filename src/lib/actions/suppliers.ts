@@ -88,6 +88,55 @@ export const insertSupplier = async (
   return { success: true, message: "Supplier added successfully!" };
 };
 
+export async function updateSupplier(
+  previousState: FormState | null,
+  formData: FormData
+): Promise<FormState> {
+  const supabase = await createClientServer();
+  const id = formData.get("id") as string;
+  const supplier_name = formData.get("supplier_name") as string;
+  const contact_raw = formData.get("contact_number") as string;
+  const purchase_link = formData.get("purchase_link") as string;
+
+  const contact_sanitized = sanitizePhoneNumber(contact_raw);
+  const contact_number = parseInt(contact_sanitized, 10);
+
+  if (!id || !supplier_name || isNaN(contact_number)) {
+    return { success: false, message: "Invalid data." };
+  }
+
+  const { error } = await supabase
+    .from("suppliers")
+    .update({
+      supplier_name,
+      contact_number,
+      purchase_link,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Update Supplier Error:", error.message);
+    return { success: false, message: error.message };
+  }
+
+  revalidatePath("/suppliers");
+  return { success: true, message: "Supplier updated successfully." };
+}
+
+export async function deleteSupplier(id: string): Promise<FormState> {
+  const supabase = await createClientServer();
+
+  const { error } = await supabase.from("suppliers").delete().eq("id", id);
+
+  if (error) {
+    console.error("Delete Supplier Error:", error.message);
+    return { success: false, message: error.message };
+  }
+
+  revalidatePath("/suppliers");
+  return { success: true, message: "Supplier deleted successfully." };
+}
+
 export async function getPaginatedSuppliersByUser(
   page: number,
   pageSize: number
