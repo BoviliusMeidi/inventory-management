@@ -7,6 +7,7 @@ import { sanitizePhoneNumber } from "../utils/formatters";
 export interface Supplier {
   id: string;
   supplier_name: string;
+  address: string;
   contact_number: number;
   purchase_link: string;
   user_id: string;
@@ -49,6 +50,7 @@ export const insertSupplier = async (
   }
 
   const supplier_name = formData.get("supplier_name") as string;
+  const address = formData.get("address") as string;
   const contact_number_str = formData.get("contact_number") as string;
   const purchase_link = formData.get("purchase_link") as string;
 
@@ -68,6 +70,7 @@ export const insertSupplier = async (
 
   const { error } = await supabase.from("suppliers").insert({
     supplier_name: supplier_name,
+    address: address,
     contact_number: contact_number,
     purchase_link: purchase_link,
     user_id: user.id,
