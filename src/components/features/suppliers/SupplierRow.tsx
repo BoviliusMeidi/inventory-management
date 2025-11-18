@@ -34,6 +34,7 @@ export default function SupplierRow({ supplier }: SupplierRowProps) {
   return (
     <tr className="hover:bg-gray-100">
       <td className="py-2 px-4">{supplier.supplier_name}</td>
+      <td className="py-2 px-4">{supplier.address}</td>
       <td className="py-2 px-4 cursor-pointer" onClick={handleCopyPhone}>
         {isCopied ? (
           <span className="text-green-600 font-semibold">Copied!</span>

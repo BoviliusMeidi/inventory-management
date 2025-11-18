@@ -50,10 +50,20 @@ const AddSupplier = () => {
         title="New Supplier"
         footer={
           <>
-            <Button type="button" variant="secondary" onClick={handleDiscard} className="text-xs sm:text-base">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleDiscard}
+              className="text-xs sm:text-base"
+            >
               Discard
             </Button>
-            <Button type="submit" form="supplier-form" disabled={isPending} className="text-xs sm:text-base">
+            <Button
+              type="submit"
+              form="supplier-form"
+              disabled={isPending}
+              className="text-xs sm:text-base"
+            >
               {isPending ? "Adding..." : "Add Supplier"}
             </Button>
           </>
@@ -71,6 +81,15 @@ const AddSupplier = () => {
             label="Supplier Name"
             type="text"
             placeholder="e.g., PT. Stok Abadi"
+            required
+          />
+
+          <LabeledInput
+            id="address"
+            name="address"
+            label="Address Supplier"
+            type="text"
+            placeholder="e.g., Jl. Stok Abadi"
             required
           />
 
