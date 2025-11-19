@@ -226,6 +226,37 @@ export async function deleteProductImage(imageUrl: string): Promise<boolean> {
   }
 }
 
+export async function deleteProduct(productId: number): Promise<FormState> {
+  const supabase = await createClientServer();
+
+  const { data: product, error: fetchError } = await supabase
+    .from("products")
+    .select("product_image")
+    .eq("id", productId)
+    .single();
+
+  if (fetchError || !product) {
+    return { success: false, message: "Could not find the product." };
+  }
+
+  const { error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", productId);
+
+  if (error) {
+    console.error("Delete Product Error:", error.message);
+    return { success: false, message: `Delete failed: ${error.message}` };
+  }
+
+  if (product.product_image) {
+    await deleteProductImage(product.product_image);
+  }
+
+  revalidatePath("/inventory");
+  return { success: true, message: "Product deleted." };
+}
+
 export async function getTotalProducts() {
   const supabase = await createClientServer();
   const { error, count } = await supabase
