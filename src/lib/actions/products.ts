@@ -3,9 +3,10 @@
 import { createClientServer } from "@/lib/supabase/server";
 import { Supplier } from "@/lib/actions/suppliers";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export interface Product {
-  id: string;
+  id: number;
   product_name: string;
   product_type: string;
   product_category: string;
@@ -130,6 +131,73 @@ export const insertProduct = async (
   return { success: true, message: "Product added successfully!" };
 };
 
+export async function updateProduct(
+  previousState: FormState | null,
+  formData: FormData
+): Promise<FormState> {
+  const supabase = await createClientServer();
+
+  const id = Number(formData.get("id"));
+  if (isNaN(id)) return { success: false, message: "Invalid Product ID." };
+
+  const { data: oldProduct, error: fetchError } = await supabase
+    .from("products")
+    .select("product_image")
+    .eq("id", id)
+    .single();
+
+  if (fetchError) {
+    return { success: false, message: "Product not found." };
+  }
+
+  const product_name = formData.get("product_name") as string;
+  const product_type = formData.get("product_type") as string;
+  const product_category = formData.get("product_category") as string;
+  const buy_price = parseFloat(formData.get("buy_price") as string);
+  const sell_price = parseFloat(formData.get("sell_price") as string);
+  const imageFile = formData.get("image_file") as File | null;
+
+  let imageUrl = "";
+  if (imageFile && imageFile instanceof File && imageFile.size > 0) {
+    const uploadedUrl = await uploadProductImage(imageFile);
+    if (!uploadedUrl) {
+      return { success: false, message: "Image upload failed." };
+    }
+    imageUrl = uploadedUrl;
+  } else {
+    imageUrl = oldProduct.product_image;
+  }
+
+  if (!product_name || !product_type || !product_category) {
+    return { success: false, message: "Please fill all required fields." };
+  }
+
+  const { error } = await supabase
+    .from("products")
+    .update({
+      product_name,
+      product_type,
+      product_category,
+      buy_price,
+      sell_price,
+      product_image: imageUrl,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Update Product Error:", error.message);
+    return { success: false, message: `Update failed: ${error.message}` };
+  }
+
+  if (oldProduct.product_image) {
+    await deleteProductImage(oldProduct.product_image);
+  }
+
+  revalidatePath(`/product/${id}`);
+  revalidatePath("/inventory");
+  return { success: true, message: "Product updated successfully." };
+}
+
 export async function getTotalProducts() {
   const supabase = await createClientServer();
   const { error, count } = await supabase
@@ -228,6 +296,10 @@ export const getProductById = async (id: string): Promise<Product | null> => {
     )
     .match({ id: numericId })
     .single();
+
+  if (!data) {
+    return redirect("/inventory");
+  }
 
   if (error) {
     console.error("Error fetching product:", error.message);
