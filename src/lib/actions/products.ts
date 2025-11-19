@@ -368,6 +368,40 @@ export const getProductById = async (id: string): Promise<Product | null> => {
   return data;
 };
 
+export async function getProductStockStats(productId: number) {
+  const supabase = await createClientServer();
+
+  const { data, error } = await supabase
+    .from("order_items")
+    .select(
+      `
+      quantity,
+      order_data:orders ( status )
+    `
+    )
+    .eq("product_id", productId);
+
+  if (error) {
+    console.error("Error fetching product stock stats:", error.message);
+    return { pendingStock: 0, shippedStock: 0 };
+  }
+
+  let pendingStock = 0;
+  let shippedStock = 0;
+
+  data.forEach((item) => {
+    const order = item.order_data as unknown as { status: string } | null;
+    const status = order?.status;
+    if (status === "Pending") {
+      pendingStock += item.quantity;
+    } else if (status === "Shipped") {
+      shippedStock += item.quantity;
+    }
+  });
+
+  return { pendingStock, shippedStock };
+}
+
 export async function getPaginatedProductsByUser(
   page: number,
   pageSize: number,
