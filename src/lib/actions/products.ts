@@ -198,6 +198,34 @@ export async function updateProduct(
   return { success: true, message: "Product updated successfully." };
 }
 
+export async function deleteProductImage(imageUrl: string): Promise<boolean> {
+  const supabase = await createClientServer();
+  const BUCKET_NAME = "images";
+
+  if (!imageUrl || imageUrl.endsWith("/product.svg")) {
+    return true;
+  }
+
+  try {
+    const path = imageUrl.split(`/${BUCKET_NAME}/`)[1];
+
+    if (!path) {
+      console.error("Invalid image URL path for deletion:", imageUrl);
+      return false;
+    }
+    const { error } = await supabase.storage.from(BUCKET_NAME).remove([path]);
+
+    if (error) {
+      console.error("Error deleting product image:", error.message);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error("Error parsing image URL:", e);
+    return false;
+  }
+}
+
 export async function getTotalProducts() {
   const supabase = await createClientServer();
   const { error, count } = await supabase
