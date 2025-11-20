@@ -19,3 +19,29 @@ export interface Order {
     } | null;
   }[];
 }
+
+type RawOrderItem = {
+  product_id: string;
+  product_name: string;
+  product_type: string;
+  quantity: string;
+  cost_per_item: string;
+};
+
+type OrderItem = {
+  product_id: number;
+  quantity: number;
+  cost_per_item: number;
+};
+
+type OrderStatsData = {
+  pending_count: number;
+  shipped_count: number;
+  pending_value: number;
+  completed_30d_count: number;
+};
+
+type FormState = {
+  success: boolean;
+  message: string;
+};
