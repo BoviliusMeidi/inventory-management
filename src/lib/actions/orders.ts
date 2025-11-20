@@ -107,3 +107,45 @@ export async function insertPurchaseOrder(
     message: `Order #${newOrderId} created successfully!`,
   };
 }
+
+export async function updateOrder(
+  previousState: FormState | null,
+  formData: FormData
+): Promise<FormState> {
+  const supabase = await createClientServer();
+
+  const id = Number(formData.get("order_id"));
+  const newStatus = formData.get("status") as string;
+  const newDate = formData.get("expected_delivery_date") as string;
+
+  if (!id || !newStatus) {
+    return { success: false, message: "Invalid data." };
+  }
+
+  if (newStatus === "Completed") {
+    const { error: rpcError } = await supabase.rpc("complete_purchase_order", {
+      p_order_id: id,
+    });
+
+    if (rpcError) {
+      console.error("RPC Error (complete_purchase_order):", rpcError.message);
+      return { success: false, message: rpcError.message };
+    }
+  } else {
+    const { error } = await supabase
+      .from("orders")
+      .update({
+        status: newStatus,
+        expected_delivery_date: newDate || null,
+      })
+      .eq("id", id);
+    if (error) {
+      console.error("Update Error:", error.message);
+      return { success: false, message: error.message };
+    }
+  }
+
+  revalidatePath("/orders");
+  revalidatePath("/inventory");
+  return { success: true, message: "Order updated successfully!" };
+}
