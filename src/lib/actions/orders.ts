@@ -149,3 +149,34 @@ export async function updateOrder(
   revalidatePath("/inventory");
   return { success: true, message: "Order updated successfully!" };
 }
+
+export async function deleteOrder(orderId: number): Promise<FormState> {
+  const supabase = await createClientServer();
+
+  const { data: order, error: fetchError } = await supabase
+    .from("orders")
+    .select("status")
+    .eq("id", orderId)
+    .single();
+
+  if (fetchError) {
+    return { success: false, message: "Could not find the order." };
+  }
+
+  if (order.status === "Completed") {
+    return { success: false, message: "Cannot delete a completed order." };
+  }
+
+  const { error: deleteError } = await supabase
+    .from("orders")
+    .delete()
+    .eq("id", orderId);
+
+  if (deleteError) {
+    console.error("Delete Error:", deleteError.message);
+    return { success: false, message: deleteError.message };
+  }
+
+  revalidatePath("/orders");
+  return { success: true, message: "Order deleted successfully." };
+}
