@@ -331,7 +331,7 @@ export async function getTotalInventoryValue() {
   return { totalValue };
 }
 
-export const getProductById = async (id: string): Promise<Product | null> => {
+export async function getProductById (id: string): Promise<Product | null> {
   const numericId = parseInt(id, 10);
 
   if (isNaN(numericId)) {

@@ -34,10 +34,10 @@ export async function getAllSuppliers() {
   return data;
 }
 
-export const insertSupplier = async (
+export async function insertSupplier(
   previousState: FormState,
   formData: FormData
-): Promise<FormState> => {
+): Promise<FormState>{
   const supabase = await createClientServer();
 
   const {
@@ -86,7 +86,7 @@ export const insertSupplier = async (
 
   revalidatePath("/suppliers");
   return { success: true, message: "Supplier added successfully!" };
-};
+}
 
 export async function updateSupplier(
   previousState: FormState | null,
