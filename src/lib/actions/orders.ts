@@ -204,3 +204,49 @@ export async function getOverallOrderStats(): Promise<OrderStatsData | null> {
 
   return data as OrderStatsData;
 }
+
+export async function getPaginatedOrders(
+  page: number,
+  pageSize: number,
+  filter: string | null
+) {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+  const supabase = await createClientServer();
+
+  let query = supabase
+    .from("orders")
+    .select(
+      `
+      id,
+      status,
+      total_cost,
+      expected_delivery_date,
+      supplier:suppliers ( supplier_name ),
+      items:order_items (
+        quantity,
+        cost_per_item,
+        product:products ( product_name, product_type, product_category )
+      )
+    `,
+      { count: "exact" }
+    )
+    .range(from, to)
+    .order("expected_delivery_date", { ascending: false });
+
+  if (filter === "All") {
+  } else if (filter) {
+    query = query.eq("status", filter);
+  } else {
+    query = query.in("status", ["Pending", "Shipped"]);
+  }
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    console.error("Error fetching orders:", error.message);
+    throw error;
+  }
+
+  return { data, total: count ?? 0 };
+}
