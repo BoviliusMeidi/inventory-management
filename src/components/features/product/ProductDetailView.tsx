@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useActionState, useEffect, useTransition } from "react";
-import { useRouter } from "next/navigation"; // 1. Impor useRouter
+import { useRouter } from "next/navigation";
 import { Product, updateProduct, deleteProduct } from "@/lib/actions/products";
 import { Button } from "@/components/ui/Button";
 import Tabs from "@/components/ui/Tabs";

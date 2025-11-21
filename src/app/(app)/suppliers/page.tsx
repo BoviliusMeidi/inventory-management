@@ -1,6 +1,6 @@
 "use client";
 import SupplierTable from "@/components/features/suppliers/SupplierTable";
-import AddSupplier from "../../../components/features/suppliers/AddSupplier";
+import AddSupplier from "@/components/features/suppliers/AddSupplier";
 import { useState } from "react";
 
 export default function SuppliersPage() {

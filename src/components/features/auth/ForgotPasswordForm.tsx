@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { resetPasswordEmail } from "../../../lib/actions/auth";
+import { resetPasswordEmail } from "@/lib/actions/auth";
 import InputField from "@/components/ui/InputField";
 import { Button } from "@/components/ui/Button";
 

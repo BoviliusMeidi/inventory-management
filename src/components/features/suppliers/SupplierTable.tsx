@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getPaginatedSuppliersByUser, Supplier } from "@/lib/actions/suppliers";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
-import SupplierRow from "./SupplierRow";
+import SupplierRow from "@/components/features/suppliers/SupplierRow";
 
 export default function SupplierTable({
   refreshKey,

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Product } from "@/lib/actions/products";
-import ProductOverviewTab from "../features/product/ProductOverviewTab";
+import ProductOverviewTab from "@/components/features/product/ProductOverviewTab";
 
 type StockStats = {
   pendingStock: number;

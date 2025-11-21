@@ -2,7 +2,7 @@
 
 import { createClientServer } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { sanitizePhoneNumber } from "../utils/formatters";
+import { sanitizePhoneNumber } from "@/lib/utils/formatters";
 
 export interface Supplier {
   id: string;
