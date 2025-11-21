@@ -180,3 +180,27 @@ export async function deleteOrder(orderId: number): Promise<FormState> {
   revalidatePath("/orders");
   return { success: true, message: "Order deleted successfully." };
 }
+
+export async function getOverallOrderStats(): Promise<OrderStatsData | null> {
+  const supabase = await createClientServer();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .rpc("get_overall_order_stats", {
+      p_user_id: user.id,
+    })
+    .single();
+
+  if (error) {
+    console.error("Error fetching order stats (RPC):", error.message);
+    return null;
+  }
+
+  return data as OrderStatsData;
+}
