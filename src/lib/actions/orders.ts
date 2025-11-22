@@ -46,7 +46,7 @@ type FormState = {
   message: string;
 };
 
-export async function insertPurchaseOrder(
+export async function insertOrder(
   previousState: FormState,
   formData: FormData
 ): Promise<FormState> {

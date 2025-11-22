@@ -8,7 +8,7 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { insertPurchaseOrder } from "@/lib/actions/orders";
+import { insertOrder } from "@/lib/actions/orders";
 import { Button } from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import LabeledInput from "@/components/ui/LabeledInput";
@@ -65,7 +65,7 @@ export default function AddOrder({
 }) {
   const [showForm, setShowForm] = useState(false);
   const [state, formAction, isPending] = useActionState(
-    insertPurchaseOrder,
+    insertOrder,
     initialState
   );
   const formRef = useRef<HTMLFormElement>(null);
