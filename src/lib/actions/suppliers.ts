@@ -95,6 +95,7 @@ export async function updateSupplier(
   const supabase = await createClientServer();
   const id = formData.get("id") as string;
   const supplier_name = formData.get("supplier_name") as string;
+  const address = formData.get("address") as string;
   const contact_raw = formData.get("contact_number") as string;
   const purchase_link = formData.get("purchase_link") as string;
 
@@ -109,6 +110,7 @@ export async function updateSupplier(
     .from("suppliers")
     .update({
       supplier_name,
+      address,
       contact_number,
       purchase_link,
     })

@@ -57,6 +57,7 @@ export default function SupplierRow({
     const formData = new FormData();
     formData.append("id", supplier.id);
     formData.append("supplier_name", editData.supplier_name);
+    formData.append("address", editData.address);
     formData.append("contact_number", editData.contact_number);
     formData.append("purchase_link", editData.purchase_link);
 
