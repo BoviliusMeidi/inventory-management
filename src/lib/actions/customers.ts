@@ -83,3 +83,38 @@ export async function insertCustomer(
   revalidatePath("/customers");
   return { success: true, message: "Customer added successfully!" };
 }
+
+export async function updateCustomer(
+  previousState: FormState | null,
+  formData: FormData
+): Promise<FormState> {
+  const supabase = await createClientServer();
+  const id = formData.get("id") as string;
+  const customer_name = formData.get("customer_name") as string;
+  const address = formData.get("address") as string;
+  const contact_raw = formData.get("contact_number") as string;
+
+  const contact_sanitized = sanitizePhoneNumber(contact_raw);
+  const contact_number = parseInt(contact_sanitized, 10);
+
+  if (!id || !customer_name || isNaN(contact_number)) {
+    return { success: false, message: "Invalid data." };
+  }
+
+  const { error } = await supabase
+    .from("customers")
+    .update({
+      name: customer_name,
+      address,
+      contact_number,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Update Customer Error:", error.message);
+    return { success: false, message: error.message };
+  }
+
+  revalidatePath("/customers");
+  return { success: true, message: "Customer updated successfully." };
+}
