@@ -118,3 +118,17 @@ export async function updateCustomer(
   revalidatePath("/customers");
   return { success: true, message: "Customer updated successfully." };
 }
+
+export async function deleteCustomer(id: string): Promise<FormState> {
+  const supabase = await createClientServer();
+
+  const { error } = await supabase.from("customers").delete().eq("id", id);
+
+  if (error) {
+    console.error("Delete Customer Error:", error.message);
+    return { success: false, message: error.message };
+  }
+
+  revalidatePath("/customers");
+  return { success: true, message: "Customer deleted successfully." };
+}
