@@ -132,3 +132,24 @@ export async function deleteCustomer(id: string): Promise<FormState> {
   revalidatePath("/customers");
   return { success: true, message: "Customer deleted successfully." };
 }
+
+export async function getPaginatedCustomersByUser(
+  page: number,
+  pageSize: number
+) {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+  const supabase = await createClientServer();
+
+  const query = supabase
+    .from("customers")
+    .select("*", { count: "exact" })
+    .range(from, to)
+    .order("name", { ascending: true });
+
+  const { data, error, count } = await query;
+
+  if (error) throw error;
+
+  return { data, total: count ?? 0 };
+}
