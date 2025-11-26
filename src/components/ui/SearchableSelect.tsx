@@ -16,6 +16,7 @@ interface SearchableSelectProps {
   required?: boolean;
   disabled?: boolean;
   placeholder?: string;
+  value?: string | null;
 }
 
 export default function SearchableSelect({
@@ -26,10 +27,11 @@ export default function SearchableSelect({
   required = false,
   disabled = false,
   placeholder = "Search...",
+  value,
 }: SearchableSelectProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  // const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const filteredOptions =
     query === ""
@@ -48,7 +50,7 @@ export default function SearchableSelect({
         !wrapperRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
-        const validOption = options.find((o) => o.id === selectedValue);
+        const validOption = options.find((o) => o.id === value);
         setQuery(validOption ? validOption.main_text : "");
       }
     }
@@ -58,11 +60,10 @@ export default function SearchableSelect({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen, options, selectedValue, disabled]);
+  }, [isOpen, options, value, disabled]);
 
   const handleSelectOption = (option: Option) => {
     setQuery(option.main_text);
-    setSelectedValue(option.id);
     onSelect(option.id);
     setIsOpen(false);
   };
@@ -85,7 +86,6 @@ export default function SearchableSelect({
             setQuery(e.target.value);
             setIsOpen(true);
             if (e.target.value === "") {
-              setSelectedValue(null);
               onSelect(null);
             }
           }}
@@ -102,7 +102,7 @@ export default function SearchableSelect({
         <input
           type="hidden"
           name={name}
-          value={selectedValue || ""}
+          value={value || ""}
           required={required}
         />
         {isOpen && !disabled && (
