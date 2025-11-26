@@ -152,6 +152,7 @@ export default function OrderRow({
               onClick={() => setIsEditing(true)}
               className="flex items-center gap-1 text-xs"
               disabled={isCompleted}
+              title={isCompleted ? "Cannot edit complete order" : "Edit"}
             >
               <EditIcon className="w-4 h-4 text-gray-900" />
             </Button>
@@ -160,6 +161,7 @@ export default function OrderRow({
               onClick={handleDelete}
               className="flex items-center gap-1 text-xs text-red-500"
               disabled={isCompleted || isDeleting}
+              title={isCompleted ? "Cannot delete complete order" : "Delete"}
             >
               {isDeleting ? (
                 "..."
