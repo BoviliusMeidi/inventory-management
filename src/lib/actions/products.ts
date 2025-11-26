@@ -446,7 +446,7 @@ export async function getAllProductsForSelect() {
 
   const { data, error } = await supabase
     .from("products")
-    .select("id, product_name, product_type, buy_price, supplier_id")
+    .select("id, product_name, product_type, buy_price, sell_price, amount_stock, supplier_id")
     .order("product_name");
 
   if (error) {
