@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Order, updateOrder, deleteOrder } from "@/lib/actions/orders";
+import { updateOrder, deleteOrder } from "@/lib/actions/orders";
 import {
   formatCurrency,
   formatDateForInput,
@@ -9,6 +9,7 @@ import {
 } from "@/lib/utils/formatters";
 import { Button } from "@/components/ui/Button";
 import { EditIcon, CloseIcon, DeleteIcon, SaveIcon } from "@/components/icons";
+import { Order } from "@/lib/types";
 
 interface OrderRowProps {
   order: Order;

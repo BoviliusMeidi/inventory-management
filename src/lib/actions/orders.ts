@@ -2,49 +2,12 @@
 
 import { createClientServer } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-
-export interface Order {
-  id: number;
-  status: string;
-  total_cost: number;
-  expected_delivery_date: string;
-  supplier: { supplier_name: string } | null;
-  items: {
-    quantity: number;
-    cost_per_item: number;
-    product: {
-      product_name: string;
-      product_type: string;
-      product_category: string;
-    } | null;
-  }[];
-}
-
-type RawOrderItem = {
-  product_id: string;
-  product_name: string;
-  product_type: string;
-  quantity: string;
-  cost_per_item: string;
-};
-
-type OrderItem = {
-  product_id: number;
-  quantity: number;
-  cost_per_item: number;
-};
-
-type OrderStatsData = {
-  pending_count: number;
-  shipped_count: number;
-  pending_value: number;
-  completed_30d_count: number;
-};
-
-type FormState = {
-  success: boolean;
-  message: string;
-};
+import {
+  FormState,
+  OrderItem,
+  OrderItemState,
+  OrderStatsData,
+} from "@/lib/types";
 
 export async function insertOrder(
   previousState: FormState,
@@ -56,6 +19,8 @@ export async function insertOrder(
   } = await supabase.auth.getUser();
   if (!user) return { success: false, message: "Not authenticated" };
 
+  console.log(formData.get("supplier_id"));
+
   const supplier_id = Number(formData.get("supplier_id"));
   const status = formData.get("status") as string;
   const expected_delivery_date = formData.get(
@@ -65,7 +30,7 @@ export async function insertOrder(
 
   let items: OrderItem[];
   try {
-    items = JSON.parse(itemsJSON).map((item: RawOrderItem) => ({
+    items = JSON.parse(itemsJSON).map((item: OrderItemState) => ({
       product_id: parseInt(item.product_id, 10),
       quantity: parseInt(item.quantity, 10),
       cost_per_item: parseFloat(item.cost_per_item),
@@ -79,6 +44,8 @@ export async function insertOrder(
     (acc, item) => acc + item.quantity * item.cost_per_item,
     0
   );
+
+  console.log(supplier_id);
 
   const { data: newOrderId, error } = await supabase.rpc(
     "create_new_purchase_order",

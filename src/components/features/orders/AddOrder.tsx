@@ -15,38 +15,16 @@ import LabeledInput from "@/components/ui/LabeledInput";
 import LabeledSelect from "@/components/ui/LabeledSelect";
 import SearchableSelect from "@/components/ui/SearchableSelect";
 import { formatDisplayPhoneNumber } from "@/lib/utils/formatters";
+import {
+  FormState,
+  SupplierOption,
+  ProductOption,
+  OrderItem,
+  OrderItemState,
+} from "@/lib/types";
 
-type SupplierOption = {
-  id: string;
-  supplier_name: string;
-  contact_number: number;
-};
-
-type ProductOption = {
-  id: string;
-  product_name: string;
-  product_type: string;
-  buy_price: number;
-  supplier_id: number;
-};
-
-type CurrentItemState = {
-  product_id: string;
-  product_name: string;
-  product_type: string;
-  quantity: string;
-  cost_per_item: string;
-};
-
-type OrderItem = {
-  product_id: string;
-  product_name: string;
-  quantity: number;
-  cost_per_item: number;
-};
-
-const initialState = { success: false, message: "" };
-const initialItemState: CurrentItemState = {
+const initialState: FormState = { success: false, message: "" };
+const initialItemState: OrderItemState = {
   product_id: "",
   product_name: "",
   product_type: "",
@@ -54,15 +32,17 @@ const initialItemState: CurrentItemState = {
   cost_per_item: "0",
 };
 
+interface AddOrderProps {
+  products: ProductOption[];
+  suppliers: SupplierOption[];
+  onOrderChange: () => void;
+}
+
 export default function AddOrder({
   products,
   suppliers,
   onOrderChange,
-}: {
-  products: ProductOption[];
-  suppliers: SupplierOption[];
-  onOrderChange: () => void;
-}) {
+}: AddOrderProps) {
   const [showForm, setShowForm] = useState(false);
   const [state, formAction, isPending] = useActionState(
     insertOrder,
@@ -71,7 +51,7 @@ export default function AddOrder({
   const formRef = useRef<HTMLFormElement>(null);
   const [items, setItems] = useState<OrderItem[]>([]);
   const [currentItem, setCurrentItem] =
-    useState<CurrentItemState>(initialItemState);
+    useState<OrderItemState>(initialItemState);
   const [selectedSupplierId, setSelectedSupplierId] = useState<string | null>(
     null
   );
@@ -87,6 +67,7 @@ export default function AddOrder({
 
   const productOptions = useMemo(() => {
     if (!selectedSupplierId) return [];
+    console.log(selectedSupplierId);
     return products
       .filter((p) => String(p.supplier_id) === String(selectedSupplierId))
       .map((p) => ({
@@ -210,6 +191,7 @@ export default function AddOrder({
             name="supplier_id"
             options={supplierOptions}
             onSelect={setSelectedSupplierId}
+            value={selectedSupplierId}
             disabled={isHeaderLocked}
             placeholder="Search Supplier..."
             required

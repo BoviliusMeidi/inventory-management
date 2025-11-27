@@ -1,21 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPaginatedOrders, Order } from "@/lib/actions/orders";
+import { getPaginatedOrders } from "@/lib/actions/orders";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
 import OrderRow from "@/components/features/orders/OrderRow";
 import OrderItemsModal from "@/components/features/orders/OrderItemsModal";
+import { Order } from "@/lib/types";
+
+interface OrderTableProps {
+  selectedFilter: string | null;
+  refreshKey: number;
+  onOrderChange: () => void;
+}
 
 export default function OrderTable({
   selectedFilter,
   refreshKey,
   onOrderChange,
-}: {
-  selectedFilter: string | null;
-  refreshKey: number;
-  onOrderChange: () => void;
-}) {
+}: OrderTableProps) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const { currentPage, handlePageChange } = usePagination();
@@ -56,9 +59,7 @@ export default function OrderTable({
                 <th className="py-2 px-2 md:px-4 hidden md:table-cell">
                   Total Cost
                 </th>
-                <th className="py-2 px-2 md:px-4">
-                  Items
-                </th>
+                <th className="py-2 px-2 md:px-4">Items</th>
                 <th className="py-2 px-2 md:px-4 hidden md:table-cell">
                   Expected
                 </th>
