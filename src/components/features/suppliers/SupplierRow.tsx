@@ -2,11 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import {
-  Supplier,
-  updateSupplier,
-  deleteSupplier,
-} from "@/lib/actions/suppliers";
+import { updateSupplier, deleteSupplier } from "@/lib/actions/suppliers";
 import {
   formatDisplayPhoneNumber,
   formatPurchaseLink,
@@ -15,6 +11,7 @@ import {
 import { copyToClipboard } from "@/lib/utils/clipboard";
 import { Button } from "@/components/ui/Button";
 import { EditIcon, DeleteIcon, SaveIcon, CloseIcon } from "@/components/icons";
+import { Supplier } from "@/lib/types";
 
 interface SupplierRowProps {
   supplier: Supplier;
@@ -27,7 +24,6 @@ export default function SupplierRow({
 }: SupplierRowProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-
   const [isPending, startTransition] = useTransition();
 
   const [editData, setEditData] = useState({

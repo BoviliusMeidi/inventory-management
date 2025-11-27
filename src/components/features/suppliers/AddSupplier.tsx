@@ -11,8 +11,9 @@ import { insertSupplier } from "@/lib/actions/suppliers";
 import { Button } from "@/components/ui/Button";
 import LabeledInput from "@/components/ui/LabeledInput";
 import Modal from "@/components/ui/Modal";
+import { FormState } from "@/lib/types";
 
-const initialState: { success: boolean; message: string } = {
+const initialState: FormState = {
   success: false,
   message: "",
 };

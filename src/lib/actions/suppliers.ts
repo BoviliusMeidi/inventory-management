@@ -3,20 +3,7 @@
 import { createClientServer } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { sanitizePhoneNumber } from "@/lib/utils/formatters";
-
-export interface Supplier {
-  id: string;
-  supplier_name: string;
-  address: string;
-  contact_number: number;
-  purchase_link: string;
-  user_id: string;
-}
-
-type FormState = {
-  success: boolean;
-  message: string;
-};
+import { FormState } from "@/lib/types";
 
 export async function getAllSuppliers() {
   const supabase = await createClientServer();
@@ -37,7 +24,7 @@ export async function getAllSuppliers() {
 export async function insertSupplier(
   previousState: FormState,
   formData: FormData
-): Promise<FormState>{
+): Promise<FormState> {
   const supabase = await createClientServer();
 
   const {

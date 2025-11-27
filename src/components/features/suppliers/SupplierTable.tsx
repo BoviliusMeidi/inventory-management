@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPaginatedSuppliersByUser, Supplier } from "@/lib/actions/suppliers";
+import { getPaginatedSuppliersByUser } from "@/lib/actions/suppliers";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
 import SupplierRow from "@/components/features/suppliers/SupplierRow";
+import { Supplier } from "@/lib/types";
+
+interface SupplierTableProps {
+  refreshKey: number;
+  onOrderChange: () => void;
+}
 
 export default function SupplierTable({
   refreshKey,
   onOrderChange,
-}: {
-  refreshKey: number;
-  onOrderChange: () => void;
-}) {
+}: SupplierTableProps) {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const { currentPage, handlePageChange } = usePagination();
