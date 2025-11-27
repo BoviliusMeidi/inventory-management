@@ -15,32 +15,31 @@ import LabeledSelect from "@/components/ui/LabeledSelect";
 import ImageDropzone from "@/components/ui/ImageDropzone";
 import SearchableSelect from "@/components/ui/SearchableSelect";
 import { formatDisplayPhoneNumber } from "@/lib/utils/formatters";
+import { FormState, SupplierOption } from "@/lib/types";
 
-const initialState: { success: boolean; message: string } = {
+const initialState: FormState = {
   success: false,
   message: "",
 };
 
-type SupplierOption = {
-  id: string;
-  supplier_name: string;
-  contact_number: number;
-};
-
-const AddProduct = ({
-  suppliers,
-  onOrderChange,
-}: {
+interface AddProductProps {
   suppliers: SupplierOption[];
   onOrderChange: () => void;
-}) => {
+}
+
+export default function AddProduct({
+  suppliers,
+  onOrderChange,
+}: AddProductProps) {
   const [showForm, setShowForm] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [state, formAction, isPending] = useActionState(
     insertProduct,
     initialState
   );
-  const [, setSelectedSupplierId] = useState<string | null>(null);
+  const [selectedSupplierID, setSelectedSupplierId] = useState<string | null>(
+    null
+  );
   const formRef = useRef<HTMLFormElement>(null);
   const processedStateRef = useRef(initialState);
 
@@ -124,6 +123,7 @@ const AddProduct = ({
             name="supplier_id"
             options={supplierOptions}
             onSelect={setSelectedSupplierId}
+            value={selectedSupplierID}
             required
           />
           <LabeledInput
@@ -189,6 +189,4 @@ const AddProduct = ({
       </Modal>
     </>
   );
-};
-
-export default AddProduct;
+}

@@ -1,35 +1,13 @@
 "use server";
 
 import { createClientServer } from "@/lib/supabase/server";
-import { Supplier } from "@/lib/actions/suppliers";
+import { Product, FormState } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export interface Product {
-  id: number;
-  product_name: string;
-  product_type: string;
-  product_category: string;
-  amount_stock: number;
-  buy_price: number;
-  sell_price: number;
-  product_image: string;
-  image_file?: File;
-  user_id: string;
-  supplier_id: number;
-  supplier?: Supplier;
-}
-
-type FormState = {
-  success: boolean;
-  message: string;
-};
-
 const lowStock = 10;
 
-export const uploadProductImage = async (
-  file: File
-): Promise<string | null> => {
+export async function uploadProductImage(file: File): Promise<string | null> {
   const supabase = await createClientServer();
 
   const fileName = `${Date.now()}_${file.name}`;
@@ -49,12 +27,12 @@ export const uploadProductImage = async (
 
   const { data } = supabase.storage.from("images").getPublicUrl(filePath);
   return data.publicUrl;
-};
+}
 
-export const insertProduct = async (
+export async function insertProduct(
   previousState: FormState,
   formData: FormData
-): Promise<FormState> => {
+): Promise<FormState> {
   const supabase = await createClientServer();
 
   const {
@@ -129,7 +107,7 @@ export const insertProduct = async (
 
   revalidatePath("/inventory");
   return { success: true, message: "Product added successfully!" };
-};
+}
 
 export async function updateProduct(
   previousState: FormState | null,
@@ -331,7 +309,7 @@ export async function getTotalInventoryValue() {
   return { totalValue };
 }
 
-export async function getProductById (id: string): Promise<Product | null> {
+export async function getProductById(id: string): Promise<Product | null> {
   const numericId = parseInt(id, 10);
 
   if (isNaN(numericId)) {
@@ -366,7 +344,7 @@ export async function getProductById (id: string): Promise<Product | null> {
   }
 
   return data;
-};
+}
 
 export async function getProductStockStats(productId: number) {
   const supabase = await createClientServer();
@@ -446,7 +424,9 @@ export async function getAllProductsForSelect() {
 
   const { data, error } = await supabase
     .from("products")
-    .select("id, product_name, product_type, buy_price, sell_price, amount_stock, supplier_id")
+    .select(
+      "id, product_name, product_type, buy_price, sell_price, amount_stock, supplier_id"
+    )
     .order("product_name");
 
   if (error) {

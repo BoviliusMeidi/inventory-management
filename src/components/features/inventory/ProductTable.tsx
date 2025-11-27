@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPaginatedProductsByUser, Product } from "@/lib/actions/products";
+import { getPaginatedProductsByUser } from "@/lib/actions/products";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
-import ProductRow from "./ProductRow";
+import ProductRow from "@/components/features/inventory/ProductRow";
+import { Product } from "@/lib/types";
+
+interface ProductTableProps {
+  selectedFilter: string | null;
+  refreshKey: number;
+}
 
 export default function ProductTable({
   selectedFilter,
   refreshKey,
-}: {
-  selectedFilter: string | null;
-  refreshKey: number;
-}) {
+}: ProductTableProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const { currentPage, handlePageChange } = usePagination();
@@ -53,10 +56,7 @@ export default function ProductTable({
           </thead>
           <tbody className="text-sm sm:text-base border-t border-gray-300">
             {products.map((product) => (
-              <ProductRow
-                key={product.id}
-                product={product}
-              />
+              <ProductRow key={product.id} product={product} />
             ))}
           </tbody>
         </table>
