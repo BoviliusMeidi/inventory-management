@@ -2,7 +2,7 @@
 
 import { useState, useActionState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Product, updateProduct, deleteProduct } from "@/lib/actions/products";
+import { updateProduct, deleteProduct } from "@/lib/actions/products";
 import { Button } from "@/components/ui/Button";
 import Tabs from "@/components/ui/Tabs";
 import {
@@ -12,6 +12,7 @@ import {
   SaveIcon,
   CloseIcon,
 } from "@/components/icons";
+import { Product } from "@/lib/types";
 
 type StockStats = {
   pendingStock: number;

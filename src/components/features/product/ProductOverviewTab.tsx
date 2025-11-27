@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Product } from "@/lib/actions/products";
+import { Product } from "@/lib/types";
 import InfoRow from "@/components/ui/InfoRow";
 import LabeledInput from "@/components/ui/LabeledInput";
 import ImageDropzone from "@/components/ui/ImageDropzone";
