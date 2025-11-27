@@ -11,21 +11,24 @@ import { insertCustomer } from "@/lib/actions/customers";
 import { Button } from "@/components/ui/Button";
 import LabeledInput from "@/components/ui/LabeledInput";
 import Modal from "@/components/ui/Modal";
+import { FormState } from "@/lib/types";
 
-const initialState: { success: boolean; message: string } = {
+const initialState: FormState = {
   success: false,
   message: "",
 };
 
-export default function AddCustomer ({ onOrderChange }: { onOrderChange: () => void }){
+export default function AddCustomer({
+  onOrderChange,
+}: {
+  onOrderChange: () => void;
+}) {
   const [showForm, setShowForm] = useState(false);
   const processedStateRef = useRef(initialState);
-
   const [state, formAction, isPending] = useActionState(
     insertCustomer,
     initialState
   );
-
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleDiscard = useCallback(() => {
@@ -112,4 +115,4 @@ export default function AddCustomer ({ onOrderChange }: { onOrderChange: () => v
       </Modal>
     </div>
   );
-};
+}

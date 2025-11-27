@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPaginatedCustomersByUser, Customer } from "@/lib/actions/customers";
+import { getPaginatedCustomersByUser } from "@/lib/actions/customers";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
 import CustomerRow from "@/components/features/customers/CustomerRow";
+import { Customer } from "@/lib/types";
+
+interface CustomerTableProps {
+  refreshKey: number;
+  onOrderChange: () => void;
+}
 
 export default function CustomerTable({
   refreshKey,
   onOrderChange,
-}: {
-  refreshKey: number;
-  onOrderChange: () => void;
-}) {
+}: CustomerTableProps) {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const { currentPage, handlePageChange } = usePagination();

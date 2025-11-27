@@ -3,19 +3,7 @@
 import { createClientServer } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { sanitizePhoneNumber } from "@/lib/utils/formatters";
-
-export interface Customer {
-  id: string;
-  name: string;
-  address: string;
-  contact_number: number;
-  user_id: string;
-}
-
-type FormState = {
-  success: boolean;
-  message: string;
-};
+import { FormState } from "@/lib/types";
 
 export async function getAllCustomers() {
   const supabase = await createClientServer();

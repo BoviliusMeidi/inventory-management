@@ -1,11 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import {
-  Customer,
-  updateCustomer,
-  deleteCustomer
-} from "@/lib/actions/customers";
+import { updateCustomer, deleteCustomer } from "@/lib/actions/customers";
 import {
   formatDisplayPhoneNumber,
   formatToLocalPhone,
@@ -13,6 +9,7 @@ import {
 import { copyToClipboard } from "@/lib/utils/clipboard";
 import { Button } from "@/components/ui/Button";
 import { EditIcon, DeleteIcon, SaveIcon, CloseIcon } from "@/components/icons";
+import { Customer } from "@/lib/types";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -90,9 +87,7 @@ export default function CustomerRow({
           <input
             type="text"
             value={editData.name}
-            onChange={(e) =>
-              setEditData({ ...editData, name: e.target.value })
-            }
+            onChange={(e) => setEditData({ ...editData, name: e.target.value })}
             className="border rounded p-1 w-full"
             disabled={isPending}
           />
