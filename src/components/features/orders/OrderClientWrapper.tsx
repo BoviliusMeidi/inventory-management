@@ -5,20 +5,7 @@ import AddOrder from "@/components/features/orders/AddOrder";
 import OrderTable from "@/components/features/orders/OrderTable";
 import FilterDropdown, { DropdownOption } from "@/components/ui/FilterDropdown";
 import { FilterIcon } from "@/components/icons";
-
-type SupplierOption = {
-  id: string;
-  supplier_name: string;
-  contact_number: number;
-};
-
-type ProductOption = {
-  id: string;
-  product_name: string;
-  product_type: string;
-  buy_price: number;
-  supplier_id: number;
-};
+import { ProductOption, SupplierOption } from "@/lib/types";
 
 const filterOptions: DropdownOption[] = [
   { label: "All", value: "All" },
