@@ -6,12 +6,11 @@ import OrderTable from "@/components/features/orders/OrderTable";
 import FilterDropdown, { DropdownOption } from "@/components/ui/FilterDropdown";
 import { FilterIcon } from "@/components/icons";
 import { ProductOption, SupplierOption } from "@/lib/types";
+import { ORDER_STATUSES } from "@/lib/constants";
 
 const filterOptions: DropdownOption[] = [
   { label: "All", value: "All" },
-  { label: "Pending", value: "Pending" },
-  { label: "Shipped", value: "Shipped" },
-  { label: "Completed", value: "Completed" },
+  ...ORDER_STATUSES,
 ];
 
 export default function OrderClientWrapper({

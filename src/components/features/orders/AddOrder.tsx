@@ -22,6 +22,7 @@ import {
   OrderItem,
   OrderItemState,
 } from "@/lib/types";
+import { ORDER_STATUSES } from "@/lib/constants";
 
 const initialState: FormState = { success: false, message: "" };
 const initialItemState: OrderItemState = {
@@ -227,9 +228,11 @@ export default function AddOrder({
             <option value="" disabled>
               Select order status
             </option>
-            <option value="Pending">Pending</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Completed">Completed (Update Stock)</option>
+            {ORDER_STATUSES.map((status) => (
+              <option key={status.value} value={status.value}>
+                {status.label}
+              </option>
+            ))}
           </LabeledSelect>
           {isHeaderLocked && (
             <p className="text-xs text-center text-gray-500 -mt-2">
