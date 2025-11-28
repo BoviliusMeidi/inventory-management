@@ -61,3 +61,20 @@ export const FOOTER_NAV_LINKS: NavLink[] = [
     icon: SettingsIcon,
   },
 ];
+
+export const PAYMENT_METHODS = [
+  { label: "Cash", value: "Cash" },
+  { label: "Transfer", value: "Transfer" },
+  { label: "QRIS", value: "QRIS" },
+];
+
+export const PAYMENT_STATUSES = [
+  { label: "Paid", value: "Paid" },
+  { label: "Debt", value: "Debt" },
+];
+
+export const ORDER_STATUSES = [
+  { label: "Pending", value: "Pending" },
+  { label: "Shipped", value: "Shipped" },
+  { label: "Completed", value: "Completed" },
+];
