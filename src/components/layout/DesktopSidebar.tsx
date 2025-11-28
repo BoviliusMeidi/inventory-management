@@ -8,7 +8,7 @@ import { MAIN_NAV_LINKS, FOOTER_NAV_LINKS } from "@/lib/constants";
 
 export default function DesktopSidebar() {
   return (
-    <aside className="py-6 px-6 h-screen bg-white shadow-md fixed flex flex-col justify-between">
+    <aside className="py-6 px-6 h-screen w-56 bg-white shadow-md fixed flex flex-col justify-between">
       <div>
         <Image
           src="/logo-BM.svg"
