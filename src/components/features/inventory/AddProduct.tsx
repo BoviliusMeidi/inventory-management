@@ -16,6 +16,7 @@ import ImageDropzone from "@/components/ui/ImageDropzone";
 import SearchableSelect from "@/components/ui/SearchableSelect";
 import { formatDisplayPhoneNumber } from "@/lib/utils/formatters";
 import { FormState, SupplierOption } from "@/lib/types";
+import { PRODUCT_CATEGORIES } from "@/lib/constants";
 
 const initialState: FormState = {
   success: false,
@@ -152,11 +153,11 @@ export default function AddProduct({
             <option value="" disabled>
               Select product category
             </option>
-            <option value="electronics">Electronics</option>
-            <option value="clothing">Clothing</option>
-            <option value="home">Home & Furniture</option>
-            <option value="beauty">Beauty & Health</option>
-            <option value="sports">Sports & Outdoors</option>
+            {PRODUCT_CATEGORIES.map((categories) => (
+              <option key={categories.value} value={categories.value}>
+                {categories.label}
+              </option>
+            ))}
           </LabeledSelect>
           <LabeledInput
             label="Qty"
