@@ -4,7 +4,6 @@ import {
   ReportsIcon,
   SuppliersIcon,
   OrdersIcon,
-  ManageStoreIcon,
   SettingsIcon,
 } from "@/components/icons";
 import React from "react";
@@ -24,19 +23,14 @@ export const MAIN_NAV_LINKS: NavLink[] = [
     icon: DashboardIcon,
   },
   {
+    href: "/sales",
+    label: "Sales",
+    icon: OrdersIcon,
+  },
+  {
     href: "/inventory",
     label: "Inventory",
     icon: InventoryIcon,
-  },
-  {
-    href: "/reports",
-    label: "Reports",
-    icon: ReportsIcon,
-  },
-  {
-    href: "/suppliers",
-    label: "Suppliers",
-    icon: SuppliersIcon,
   },
   {
     href: "/orders",
@@ -44,9 +38,19 @@ export const MAIN_NAV_LINKS: NavLink[] = [
     icon: OrdersIcon,
   },
   {
-    href: "/managestore",
-    label: "Manage Store",
-    icon: ManageStoreIcon,
+    href: "/customers",
+    label: "Customers",
+    icon: SuppliersIcon,
+  },
+  {
+    href: "/suppliers",
+    label: "Suppliers",
+    icon: SuppliersIcon,
+  },
+  {
+    href: "/reports",
+    label: "Reports",
+    icon: ReportsIcon,
   },
 ];
 
