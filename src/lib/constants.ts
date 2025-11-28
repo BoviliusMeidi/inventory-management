@@ -78,3 +78,11 @@ export const ORDER_STATUSES = [
   { label: "Shipped", value: "Shipped" },
   { label: "Completed", value: "Completed" },
 ];
+
+export const PRODUCT_CATEGORIES = [
+  { label: "Electronics", value: "electronics" },
+  { label: "Clothing", value: "clothing" },
+  { label: "Home & Furniture", value: "home" },
+  { label: "Beauty & Health", value: "beauty" },
+  { label: "Sports & Outdoors", value: "sports" },
+];
