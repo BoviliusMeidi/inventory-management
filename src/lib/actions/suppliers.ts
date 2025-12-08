@@ -128,17 +128,22 @@ export async function deleteSupplier(id: string): Promise<FormState> {
 
 export async function getPaginatedSuppliersByUser(
   page: number,
-  pageSize: number
+  pageSize: number,
+  searchQuery?: string
 ) {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
   const supabase = await createClientServer();
 
-  const query = supabase
+  let query = supabase
     .from("suppliers")
     .select("*", { count: "exact" })
     .range(from, to)
     .order("id");
+
+  if (searchQuery) {
+    query = query.ilike("supplier_name", `%${searchQuery}%`);
+  }
 
   const { data, error, count } = await query;
 
