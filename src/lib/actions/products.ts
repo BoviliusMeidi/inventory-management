@@ -383,7 +383,8 @@ export async function getProductStockStats(productId: number) {
 export async function getPaginatedProductsByUser(
   page: number,
   pageSize: number,
-  filter: string | null
+  filter: string | null,
+  searchQuery?: string
 ) {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
@@ -410,6 +411,10 @@ export async function getPaginatedProductsByUser(
     query = query.gt("amount_stock", 0).lt("amount_stock", 10);
   } else if (filter === "Out of Stock") {
     query = query.eq("amount_stock", 0);
+  }
+
+  if (searchQuery) {
+    query = query.ilike("product_name", `%${searchQuery}%`);
   }
 
   const { data, error, count } = await query;
