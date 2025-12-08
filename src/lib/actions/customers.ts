@@ -123,17 +123,22 @@ export async function deleteCustomer(id: string): Promise<FormState> {
 
 export async function getPaginatedCustomersByUser(
   page: number,
-  pageSize: number
+  pageSize: number,
+  searchQuery? : string
 ) {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
   const supabase = await createClientServer();
 
-  const query = supabase
+  let query = supabase
     .from("customers")
     .select("*", { count: "exact" })
     .range(from, to)
     .order("name", { ascending: true });
+
+  if (searchQuery) {
+    query = query.ilike("name", `%${searchQuery}%`);
+  }
 
   const { data, error, count } = await query;
 
