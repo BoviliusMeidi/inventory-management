@@ -175,7 +175,8 @@ export async function getOverallOrderStats(): Promise<OrderStatsData | null> {
 export async function getPaginatedOrders(
   page: number,
   pageSize: number,
-  filter: string | null
+  filter: string | null,
+  searchQuery?: string
 ) {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
@@ -186,6 +187,7 @@ export async function getPaginatedOrders(
     .select(
       `
       id,
+      po_code,
       status,
       total_cost,
       expected_delivery_date,
@@ -206,6 +208,10 @@ export async function getPaginatedOrders(
     query = query.eq("status", filter);
   } else {
     query = query.in("status", ["Pending", "Shipped"]);
+  }
+
+  if (searchQuery) {
+    query = query.ilike("po_code", `%${searchQuery}%`);
   }
 
   const { data, error, count } = await query;
