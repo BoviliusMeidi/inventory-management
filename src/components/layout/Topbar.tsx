@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  SearchIcon,
   NotificationIcon,
   ProfileIcon,
   HamburgerIcon,
 } from "@/components/icons";
+import GlobalSearch from "@/components/ui/GlobalSearch";
 
 const notifCount = 7;
 
@@ -23,15 +23,8 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
       >
         <HamburgerIcon className="w-6 h-6" />
       </button>
-      <div className="relative flex-1 md:w-1/2">
-        <input
-          type="text"
-          placeholder="Search product, supplier, order"
-          className="w-full text-sm sm:text-base p-2 pl-10 border border-gray-400 outline-none rounded-md focus:ring-1 focus:ring-gray-600 focus:outline-none"
-        />
-        <div className="absolute left-3 top-0 h-full flex items-center">
-          <SearchIcon className="w-5 h-5 text-gray-400" />
-        </div>
+      <div className="relative flex-1 md:w-1/2 max-w-2xl">
+       <GlobalSearch />
       </div>
       <div className="flex items-center gap-3 md:gap-6">
         <div className="relative cursor-pointer">
