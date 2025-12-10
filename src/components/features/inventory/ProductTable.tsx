@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { getPaginatedProductsByUser } from "@/lib/actions/products";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
@@ -20,13 +21,17 @@ export default function ProductTable({
   const [totalPages, setTotalPages] = useState(1);
   const { currentPage, handlePageChange } = usePagination();
 
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await getPaginatedProductsByUser(
           currentPage,
           PAGE_SIZE,
-          selectedFilter
+          selectedFilter,
+          searchQuery
         );
         setProducts(res.data);
         setTotalPages(Math.ceil(res.total / PAGE_SIZE));
@@ -35,7 +40,7 @@ export default function ProductTable({
       }
     };
     fetchData();
-  }, [currentPage, selectedFilter, refreshKey]);
+  }, [currentPage, selectedFilter, refreshKey, searchQuery]);
 
   return (
     <div className="pt-2 overflow-hidden">
@@ -58,6 +63,16 @@ export default function ProductTable({
             {products.map((product) => (
               <ProductRow key={product.id} product={product} />
             ))}
+            {products.length === 0 && (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="py-8 text-center text-gray-500 italic"
+                >
+                  No products found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
