@@ -74,7 +74,7 @@ export default function OrderRow({
   return (
     <tr className="hover:bg-gray-100">
       <td className="py-2 px-2 md:px-4 hidden md:table-cell font-medium">
-        #{order.id}
+        {order.po_code}
       </td>
       <td className="py-2 px-2 md:px-4">
         {order.supplier?.supplier_name ?? "N/A"}
