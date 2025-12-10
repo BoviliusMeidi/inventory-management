@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { getPaginatedSuppliersByUser } from "@/lib/actions/suppliers";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
@@ -20,10 +21,17 @@ export default function SupplierTable({
   const [totalPages, setTotalPages] = useState(1);
   const { currentPage, handlePageChange } = usePagination();
 
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getPaginatedSuppliersByUser(currentPage, PAGE_SIZE);
+        const res = await getPaginatedSuppliersByUser(
+          currentPage,
+          PAGE_SIZE,
+          searchQuery
+        );
         setSuppliers(res.data);
         setTotalPages(Math.ceil(res.total / PAGE_SIZE));
       } catch (err) {
@@ -31,7 +39,7 @@ export default function SupplierTable({
       }
     };
     fetchData();
-  }, [currentPage, refreshKey]);
+  }, [currentPage, refreshKey, searchQuery]);
 
   return (
     <div className="pt-2 overflow-hidden">
@@ -54,6 +62,16 @@ export default function SupplierTable({
                 supplier={supplier}
               />
             ))}
+            {suppliers.length === 0 && (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="py-8 text-center text-gray-500 italic"
+                >
+                  No suppliers found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         <Pagination
