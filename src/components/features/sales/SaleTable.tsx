@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { getPaginatedSales } from "@/lib/actions/sales";
 import Pagination, { PAGE_SIZE } from "@/components/ui/Pagination";
 import { usePagination } from "@/lib/hooks/use-pagination";
@@ -26,6 +27,9 @@ export default function SaleTable({
   const { currentPage, handlePageChange } = usePagination();
   const [viewingSaleItems, setViewingSaleItems] = useState<Sale | null>(null);
 
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,7 +37,8 @@ export default function SaleTable({
           currentPage,
           PAGE_SIZE,
           statusFilter,
-          methodFilter
+          methodFilter,
+          searchQuery
         );
         setSales(res.data as unknown as Sale[]);
         setTotalPages(Math.ceil(res.total / PAGE_SIZE));
@@ -42,7 +47,7 @@ export default function SaleTable({
       }
     };
     fetchData();
-  }, [currentPage, refreshKey, statusFilter, methodFilter]);
+  }, [currentPage, refreshKey, statusFilter, methodFilter, searchQuery]);
 
   return (
     <>
