@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClientServer } from "@/lib/supabase/server";
+import { FormState } from "@/lib/types";
 
 export async function login(
   prevState: { success: string; error: string },
@@ -131,8 +132,6 @@ export async function updatePasswordEmail(
     typeof rawParams === "string" ? rawParams : String(rawParams ?? "");
   const params = new URLSearchParams(paramsString);
 
-  console.log("paramsString:", paramsString);
-  console.log("params:", params);
   const token_hash = params.get("token_hash");
   const type = params.get("type");
 
@@ -176,4 +175,55 @@ export async function updatePasswordEmail(
     success: "Password updated successfully! Please log in again.",
     error: "",
   };
+}
+
+export async function updatePasswordSettings(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const supabase = await createClientServer();
+
+  const currentPassword = formData.get("current_password") as string;
+  const newPassword = formData.get("new_password") as string;
+  const confirmPassword = formData.get("confirm_password") as string;
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    return {  success: false, message: "All fields are required." };
+  }
+
+  if (newPassword !== confirmPassword) {
+    return { success: false, message: "New passwords do not match." };
+  }
+
+  if (newPassword.length < 6) {
+    return { success:false, message: "Password must be at least 6 characters." };
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user || !user.email) {
+    return { success: false, message: "User not authenticated." };
+  }
+
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+
+  if (signInError) {
+    return { success: false, message: "Current password is incorrect." };
+  }
+
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (updateError) {
+    return { success: false, message: updateError.message };
+  }
+
+  revalidatePath("/settings");
+  return { success: true, message: "Password updated successfully!" };
 }
