@@ -10,6 +10,8 @@ import React from "react";
 
 type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
+export const LOW_STOCK_THRESHOLD = 10;
+
 export interface NavLink {
   href: string;
   label: string;

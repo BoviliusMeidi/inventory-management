@@ -4,8 +4,7 @@ import { createClientServer } from "@/lib/supabase/server";
 import { Product, FormState } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-const lowStock = 10;
+import { LOW_STOCK_THRESHOLD } from "@/lib/constants";
 
 export async function uploadProductImage(file: File): Promise<string | null> {
   const supabase = await createClientServer();
@@ -274,7 +273,7 @@ export async function getTotalLowStockProducts() {
     .from("products")
     .select("*", { count: "exact", head: true })
     .gt("amount_stock", 0)
-    .lt("amount_stock", lowStock);
+    .lt("amount_stock", LOW_STOCK_THRESHOLD);
   const { count: noStockCount, error: errorNo } = await supabase
     .from("products")
     .select("*", { count: "exact", head: true })

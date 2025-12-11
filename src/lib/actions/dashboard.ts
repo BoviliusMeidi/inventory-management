@@ -2,6 +2,7 @@
 
 import { createClientServer } from "@/lib/supabase/server";
 import { ChartData, DashboardCardStats } from "@/lib/types";
+import { LOW_STOCK_THRESHOLD } from "@/lib/constants";
 
 export async function getDashboardStats(period: string = "monthly") {
   const supabase = await createClientServer();
@@ -90,7 +91,7 @@ export async function getDashboardStats(period: string = "monthly") {
 
   const lowStock =
     productsData
-      ?.filter((p) => p.amount_stock < 10)
+      ?.filter((p) => p.amount_stock < LOW_STOCK_THRESHOLD)
       .sort((a, b) => a.amount_stock - b.amount_stock)
       .map((p) => ({
         id: String(p.id),
