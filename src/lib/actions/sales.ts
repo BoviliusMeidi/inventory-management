@@ -117,3 +117,72 @@ export async function deleteSale(saleId: number): Promise<FormState> {
   revalidatePath("/inventory");
   return { success: true, message: "Sale deleted and stock restored." };
 }
+
+export async function getPaginatedSales(
+  page: number,
+  pageSize: number,
+  statusFilter: string | null,
+  methodFilter: string | null,
+  searchQuery?: string
+) {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+  const supabase = await createClientServer();
+
+  let query = supabase
+    .from("sales")
+    .select(
+      `
+      id, invoice_code, total_amount, payment_method, payment_status, sale_date,
+      customer:customers ( name ),
+      items:sales_items (
+        quantity, price_at_sale,
+        product:products ( product_name, product_type, product_category )
+      )
+    `,
+      { count: "exact" }
+    )
+    .range(from, to)
+    .order("invoice_code", { ascending: false });
+
+  if (statusFilter) {
+    query = query.eq("payment_status", statusFilter);
+  }
+
+  if (methodFilter) {
+    query = query.eq("payment_method", methodFilter);
+  }
+
+  if (searchQuery) {
+    query = query.ilike("invoice_code", `%${searchQuery}%`);
+  }
+
+  const { data, error, count } = await query;
+  if (error) throw error;
+
+  return { data, total: count ?? 0 };
+}
+
+export async function getOverallSalesStats(): Promise<SalesStatsData | null> {
+  const supabase = await createClientServer();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .rpc("get_overall_sales_stats", {
+      p_user_id: user.id,
+    })
+    .single<SalesStatsData>();
+
+  if (error) {
+    console.error("Error fetching sales stats (RPC):", error.message);
+    return null;
+  }
+
+  return data;
+}
