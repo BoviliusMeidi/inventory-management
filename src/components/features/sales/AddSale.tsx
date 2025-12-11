@@ -287,7 +287,7 @@ export default function AddSale({
                 placeholder={
                   isItemFormDisabled
                     ? "Fill header details first..."
-                    : "Scan/Search Product..."
+                    : "Search Product..."
                 }
                 key={itemFormKey}
                 disabled={isItemFormDisabled}
