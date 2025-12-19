@@ -55,3 +55,15 @@ export interface Supplier {
   /** The ID of the user who created/owns this supplier record. */
   user_id: string;
 }
+
+/**
+ * A minimal representation of a supplier, typically used in dropdowns or selection lists.
+ */
+export type SupplierOption = {
+  /** The unique identifier for the supplier. */
+  id: string;
+  /** The name of the supplier. */
+  supplier_name: string;
+  /** The primary contact number. */
+  contact_number: number;
+};
