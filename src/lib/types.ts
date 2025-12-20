@@ -101,3 +101,23 @@ export interface Product {
   /** Optional full supplier object, often included via relation fetching. */
   supplier?: Supplier;
 }
+
+/**
+ * A subset of product details, typically for display tables or selection inputs.
+ */
+export type ProductOption = {
+  /** The unique identifier for the product. */
+  id: string;
+  /** The name of the product. */
+  product_name: string;
+  /** The type or variation of the product. */
+  product_type: string;
+  /** The cost price of the product. */
+  buy_price: number;
+  /** The selling price of the product. */
+  sell_price: number;
+  /** The current quantity in stock. */
+  amount_stock: number;
+  /** The ID of the primary supplier. */
+  supplier_id: number;
+};
