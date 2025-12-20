@@ -67,3 +67,37 @@ export type SupplierOption = {
   /** The primary contact number. */
   contact_number: number;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// PRODUCTS
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Represents a product available in the inventory.
+ */
+export interface Product {
+  /** The unique identifier for the product. */
+  id: number;
+  /** The name of the product. */
+  product_name: string;
+  /** The type or variation of the product (e.g., size, model). */
+  product_type: string;
+  /** The category the product belongs to. */
+  product_category: string;
+  /** The current quantity of the product in stock. */
+  amount_stock: number;
+  /** The cost price (COGS - how much the item was bought for). */
+  buy_price: number;
+  /** The selling price (how much the item is sold for). */
+  sell_price: number;
+  /** URL or path to the stored product image. */
+  product_image: string;
+  /** Optional file object for a new product image (used during creation/update). */
+  image_file?: File;
+  /** The ID of the user who created/owns this product record. */
+  user_id: string;
+  /** The ID of the primary supplier for this product. */
+  supplier_id: number;
+  /** Optional full supplier object, often included via relation fetching. */
+  supplier?: Supplier;
+}
