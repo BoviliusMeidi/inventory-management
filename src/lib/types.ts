@@ -121,3 +121,35 @@ export type ProductOption = {
   /** The ID of the primary supplier. */
   supplier_id: number;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// ORDERS
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Represents a purchase order made to a supplier (Pembelian).
+ */
+export interface Order {
+  /** The unique identifier for the order. */
+  id: number;
+  /** The unique transaction code for the order. */
+  po_code: string;
+  /** The current status of the order (e.g., 'Pending', 'Shipped', 'Completed'). */
+  status: string;
+  /** The total monetary cost of the entire order. */
+  total_cost: number;
+  /** The ISO date string when the delivery is expected. */
+  expected_delivery_date: string;
+  /** A minimal supplier object containing only the name, or null. */
+  supplier: { supplier_name: string } | null;
+  /** The list of products included in the order. */
+  items: {
+    quantity: number;
+    cost_per_item: number;
+    product: {
+      product_name: string;
+      product_type: string;
+      product_category: string;
+    } | null;
+  }[];
+}
