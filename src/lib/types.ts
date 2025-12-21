@@ -153,3 +153,17 @@ export interface Order {
     } | null;
   }[];
 }
+
+/**
+ * Represents a single product item within a purchase order.
+ */
+export type OrderItem = {
+  /** The ID of the product being ordered. */
+  product_id: string;
+  /** The name of the product. */
+  product_name: string;
+  /** The number of units of the product ordered. */
+  quantity: number;
+  /** The unit cost price at the time of the order. */
+  cost_per_item: number;
+};
