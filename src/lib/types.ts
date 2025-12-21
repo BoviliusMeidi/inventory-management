@@ -181,3 +181,15 @@ export type OrderStatsData = {
   /** The number of orders completed in the last 30 days. */
   completed_30d_count: number;
 };
+
+/**
+ * Represents the form state for a single item when creating/editing an order.
+ * @remarks Values are strings to handle HTML input elements.
+ */
+export type OrderItemState = {
+  product_id: string;
+  product_name: string;
+  product_type: string;
+  quantity: string;
+  cost_per_item: string;
+};
