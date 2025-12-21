@@ -167,3 +167,17 @@ export type OrderItem = {
   /** The unit cost price at the time of the order. */
   cost_per_item: number;
 };
+
+/**
+ * Statistical data related to purchase orders.
+ */
+export type OrderStatsData = {
+  /** The number of orders currently with 'Pending' status. */
+  pending_count: number;
+  /** The number of orders currently with 'Shipped' status. */
+  shipped_count: number;
+  /** The total monetary value of all 'Pending' orders. */
+  pending_value: number;
+  /** The number of orders completed in the last 30 days. */
+  completed_30d_count: number;
+};
