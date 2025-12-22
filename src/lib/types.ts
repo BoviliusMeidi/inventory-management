@@ -243,3 +243,17 @@ export type SaleItem = {
   /** The unit selling price at the time of the sale. */
   sell_price: number;
 };
+
+/**
+ * Statistical data related to sales performance.
+ */
+export type SalesStatsData = {
+  /** The cumulative total revenue (all sales). */
+  total_revenue: number;
+  /** The cumulative total profit (all sales). */
+  total_profit: number;
+  /** The total number of completed sales transactions. */
+  total_transactions: number;
+  /** The total revenue generated specifically today. */
+  today_revenue: number;
+};
