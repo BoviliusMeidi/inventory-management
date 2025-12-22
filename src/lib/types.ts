@@ -193,3 +193,39 @@ export type OrderItemState = {
   quantity: string;
   cost_per_item: string;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// SALES
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Represents a sales transaction to a customer (Penjualan).
+ */
+export interface Sale {
+  /** The unique identifier for the sale. */
+  id: number;
+  /** The unique invoice or transaction code for the sale. */
+  invoice_code: string;
+  /** The total amount the customer paid for the sale. */
+  total_amount: number;
+  /** The calculated total profit generated from this sale. */
+  total_profit: number;
+  /** The method used for payment (e.g., 'Cash', 'Card', 'Transfer'). */
+  payment_method: string;
+  /** The status of the payment (e.g., 'Paid', 'Pending'). */
+  payment_status: string;
+  /** The ISO date string when the sale was finalized. */
+  sale_date: string;
+  /** A minimal customer object containing only the name, or null. */
+  customer: { name: string } | null;
+  /** The list of products included in the sale. */
+  items: {
+    quantity: number;
+    price_at_sale: number;
+    product: {
+      product_name: string;
+      product_type: string;
+      product_category: string;
+    } | null;
+  }[];
+}
