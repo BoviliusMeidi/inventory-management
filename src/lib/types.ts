@@ -229,3 +229,17 @@ export interface Sale {
     } | null;
   }[];
 }
+
+/**
+ * Represents a single product item within a sales transaction.
+ */
+export type SaleItem = {
+  /** The ID of the product being sold. */
+  product_id: string;
+  /** The name of the product. */
+  product_name: string;
+  /** The number of units of the product sold. */
+  quantity: number;
+  /** The unit selling price at the time of the sale. */
+  sell_price: number;
+};
