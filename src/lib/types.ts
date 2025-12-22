@@ -257,3 +257,12 @@ export type SalesStatsData = {
   /** The total revenue generated specifically today. */
   today_revenue: number;
 };
+
+/**
+ * Represents the form state for a single item when creating/editing a sale.
+ * @remarks Values are strings to handle HTML input elements.
+ */
+export type SaleItemState = {
+  product_id: string;
+  quantity: string;
+};
