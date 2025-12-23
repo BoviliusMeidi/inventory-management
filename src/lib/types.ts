@@ -284,3 +284,15 @@ export interface Customer {
   /** The primary contact number for the customer. */
   contact_number: string;
 }
+
+/**
+ * A minimal representation of a customer, typically used in dropdowns or selection lists.
+ */
+export type CustomerOption = {
+  /** The unique identifier for the customer. */
+  id: string;
+  /** The full name of the customer. */
+  name: string;
+  /** The primary contact number for the customer. */
+  contact_number: number;
+};
