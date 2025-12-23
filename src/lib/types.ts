@@ -266,3 +266,21 @@ export type SaleItemState = {
   product_id: string;
   quantity: string;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// CUSTOMERS
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Represents a customer record in the system.
+ */
+export interface Customer {
+  /** The unique identifier for the customer. */
+  id: string;
+  /** The full name of the customer. */
+  name: string;
+  /** The physical address of the customer. */
+  address: string;
+  /** The primary contact number for the customer. */
+  contact_number: string;
+}
