@@ -296,3 +296,27 @@ export type CustomerOption = {
   /** The primary contact number for the customer. */
   contact_number: number;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// FINANCIAL & REPORTING
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Summary of financial performance metrics.
+ * Used for displaying high-level financial cards or report headers.
+ */
+export interface FinancialSummary {
+  /** Total gross income from sales. */
+  totalRevenue: number;
+  /** Total expenses or Cost of Goods Sold (COGS). */
+  totalCost: number;
+  /** Net profit calculated as (Revenue - Cost). */
+  grossProfit: number;
+  /** Profit margin percentage (0-100). */
+  marginPercent: number;
+  /**
+   * Total number of transactions in the selected period.
+   * @remarks Optional because not all summary cards require this metric.
+   */
+  totalTransactions?: number;
+}
