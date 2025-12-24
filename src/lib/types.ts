@@ -320,3 +320,15 @@ export interface FinancialSummary {
    */
   totalTransactions?: number;
 }
+
+/**
+ * Represents a single data point for financial visualization charts (Line/Bar).
+ */
+export interface ProfitChartData {
+  /** The date label for the X-axis (e.g., "2023-12-01"). */
+  date: string;
+  /** Revenue amount for this specific date/period. */
+  revenue: number;
+  /** Profit amount for this specific date/period. */
+  profit: number;
+}
