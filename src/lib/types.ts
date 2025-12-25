@@ -560,3 +560,25 @@ export interface HistoryItem {
   /** The name of the counterparty involved (Supplier Name or Customer Name). */
   party_name: string;
 }
+
+/**
+ * Represents the raw database structure returned when querying purchase history.
+ * This reflects the nested join structure between `order_items`, `orders`, and `suppliers`.
+ * Used internally to type-cast Supabase query results before mapping them to `HistoryItem`.
+ */
+export type PurchaseQueryRow = {
+  /** The quantity purchased in this line item. */
+  quantity: number;
+  /** The cost per unit recorded at the time of purchase. */
+  cost_per_item: number;
+  /** The parent order details (joined relation). */
+  order: {
+    id: number;
+    po_code: string | null;
+    created_at: string;
+    status: string;
+    supplier: {
+      supplier_name: string;
+    } | null;
+  } | null;
+};
