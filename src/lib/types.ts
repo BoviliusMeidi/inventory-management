@@ -503,3 +503,33 @@ export type DashboardData = {
   /** Data points for the main dashboard chart. */
   charts: ChartData[];
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// Stock
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Represents a critical stock alert for a specific product,
+ * typically used for notification dropdowns when inventory is low.
+ */
+export interface StockAlert {
+  /** The unique identifier of the product. */
+  id: string;
+  /** The display name of the product. */
+  product_name: string;
+  /** The current remaining quantity in stock. */
+  amount_stock: number;
+  /** The public URL of the product image (if available). */
+  product_image: string | null;
+}
+
+/**
+ * Summarized statistics regarding the incoming inventory for a specific product.
+ * Used to track stock that has been ordered (purchase orders) but not yet fully received into the main inventory.
+ */
+export type StockStats = {
+  /** The total quantity of units currently in 'Pending' status (ordered but not yet processed/shipped). */
+  pendingStock: number;
+  /** The total quantity of units currently in 'Shipped' status (in transit to the warehouse). */
+  shippedStock: number;
+};
