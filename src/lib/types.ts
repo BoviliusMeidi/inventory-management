@@ -463,3 +463,43 @@ export type ChartData = {
   /** Count or value of orders successfully delivered. */
   delivered: number;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// Dashboard Database Responses
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Raw database response format for calculating summary statistics.
+ * Typically returned from Supabase RPC calls or aggregate queries.
+ */
+export type DashboardCardStats = {
+  total_revenue: number;
+  total_profit: number;
+  total_cost: number;
+  total_qty_sold: number;
+};
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// Main Dashboard Data
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * The main container interface for the entire Dashboard page's data.
+ * Used as the return type for the main data fetching function.
+ */
+export type DashboardData = {
+  /** Sales summary statistics. */
+  sales: SalesStats;
+  /** Inventory status summary. */
+  inventory: InventoryStats;
+  /** Purchase/Procurement summary. */
+  purchase: PurchaseStats;
+  /** Product catalog statistics. */
+  products: ProductStats;
+  /** List of top-performing products. */
+  bestSelling: TopProduct[];
+  /** List of products requiring restocking. */
+  lowStock: LowStockProduct[];
+  /** Data points for the main dashboard chart. */
+  charts: ChartData[];
+};
