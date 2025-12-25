@@ -384,3 +384,27 @@ export type InventoryStats = {
   /** Total quantity of items ordered from suppliers but not yet received. */
   toBeReceived: number;
 };
+
+/**
+ * Summary of procurement and supply chain activities.
+ */
+export type PurchaseStats = {
+  /** Total monetary value of purchases. */
+  cost: number;
+  /** Total number of purchase transactions/orders. */
+  purchase: number;
+  /** Number of orders that have been shipped by suppliers. */
+  shipped: number;
+  /** Number of orders currently pending processing. */
+  pending: number;
+};
+
+/**
+ * General statistics regarding product diversity.
+ */
+export type ProductStats = {
+  /** Total number of active suppliers. */
+  suppliers: number;
+  /** Total number of distinct product categories. */
+  categories: number;
+};
