@@ -442,3 +442,24 @@ export type LowStockProduct = {
   /** URL to the product thumbnail image. */
   image: string;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// Charts
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Combined dataset for the main Dashboard visualization graph.
+ * Compares Sales, Purchases, and Order statuses over time.
+ */
+export type ChartData = {
+  /** The time period label (e.g., "Mon", "Week 1"). */
+  name: string;
+  /** Value representing sales performance. */
+  sales: number;
+  /** Value representing purchase/procurement costs. */
+  purchase: number;
+  /** Count or value of orders placed. */
+  ordered: number;
+  /** Count or value of orders successfully delivered. */
+  delivered: number;
+};
