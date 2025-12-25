@@ -533,3 +533,30 @@ export type StockStats = {
   /** The total quantity of units currently in 'Shipped' status (in transit to the warehouse). */
   shippedStock: number;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// History
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Represents a single transaction record in the product's history log.
+ * This combines data from both Purchase Orders (incoming) and Sales (outgoing).
+ */
+export interface HistoryItem {
+  /** The unique display identifier for the transaction (e.g., PO code or Invoice ID). */
+  id: string;
+  /** The timestamp when the transaction occurred (ISO string). */
+  date: string;
+  /** The type of transaction: 'purchase' for restocking, 'sale' for selling to customers. */
+  type: "purchase" | "sale";
+  /** The number of units involved in the transaction. */
+  quantity: number;
+  /** The cost or price per single unit at the time of transaction. */
+  price_per_unit: number;
+  /** The total monetary value of the transaction line item (quantity * price). */
+  total_price: number;
+  /** The current status of the transaction (e.g., 'Completed', 'Pending', 'Shipped'). */
+  status: string;
+  /** The name of the counterparty involved (Supplier Name or Customer Name). */
+  party_name: string;
+}
