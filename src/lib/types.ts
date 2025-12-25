@@ -408,3 +408,37 @@ export type ProductStats = {
   /** Total number of distinct product categories. */
   categories: number;
 };
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// Lists of Product
+// -----------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Represents a product in the "Best Selling" dashboard widget.
+ */
+export type TopProduct = {
+  /** The unique identifier for the product. */
+  id: string;
+  /** The name of the product. */
+  name: string;
+  /** Total number of units sold. */
+  soldQuantity: number;
+  /** Current remaining stock level. */
+  remainingStock: number;
+  /** The selling price per unit. */
+  price: number;
+};
+
+/**
+ * Represents a product in the "Low Stock Alert" dashboard widget.
+ */
+export type LowStockProduct = {
+  /** The unique identifier for the product. */
+  id: string;
+  /** The name of the product. */
+  name: string;
+  /** Current critical stock level. */
+  remainingStock: number;
+  /** URL to the product thumbnail image. */
+  image: string;
+};
