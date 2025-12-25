@@ -356,3 +356,31 @@ export interface ReportData {
   /** Array of performance metrics per category. */
   categoryPerformance: CategoryData[];
 }
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+// DASHBOARD TYPES
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * High-level sales metrics for the dashboard summary card.
+ */
+export type SalesStats = {
+  /** Total revenue from sales. */
+  revenue: number;
+  /** Total profit generated. */
+  profit: number;
+  /** Total cost incurred. */
+  cost: number;
+  /** Total number of individual items sold. */
+  quantitySold: number;
+};
+
+/**
+ * Snapshot of the current inventory status.
+ */
+export type InventoryStats = {
+  /** Total quantity of items currently physically in stock. */
+  quantityInHand: number;
+  /** Total quantity of items ordered from suppliers but not yet received. */
+  toBeReceived: number;
+};
