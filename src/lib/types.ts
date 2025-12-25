@@ -582,3 +582,24 @@ export type PurchaseQueryRow = {
     } | null;
   } | null;
 };
+
+/**
+ * Represents the raw database structure returned when querying sales history.
+ * This reflects the nested join structure between `sales_items`, `sales`, and `customers`.
+ * Used internally to type-cast Supabase query results before mapping them to `HistoryItem`.
+ */
+export type SaleQueryRow = {
+  /** The quantity sold in this line item. */
+  quantity: number;
+  /** The price per unit recorded at the time of sale. */
+  price_at_sale: number;
+  /** The parent sale details (joined relation). */
+  sale: {
+    id: number;
+    sale_date: string;
+    invoice_code: string | null;
+    customer: {
+      name: string;
+    } | null;
+  } | null;
+};
