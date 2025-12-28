@@ -111,3 +111,20 @@ export function formatDisplayPhoneNumber(
 
   return `+${phoneStr}`;
 }
+
+/**
+ * Ensures a URL string has a valid protocol prefix.
+ * Defaults to "https://" if no protocol is present.
+ *
+ * @param url - The raw URL string.
+ * @returns A valid absolute URL or "#" if input is null.
+ */
+export function formatPurchaseLink(url: string | null): string {
+  if (!url) return "#";
+
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+
+  return `https://${url}`;
+}
