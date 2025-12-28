@@ -128,3 +128,20 @@ export function formatPurchaseLink(url: string | null): string {
 
   return `https://${url}`;
 }
+
+/**
+ * Converts an international phone number format back to the local Indonesian format.
+ * Useful for populating edit forms where users expect to see "08..." instead of "628...".
+ *
+ * @param phone - The international phone number (e.g., "62812...").
+ * @returns The local phone number string (e.g., "0812...").
+ */
+export function formatToLocalPhone(phone: string | number | null): string {
+  const phoneStr = String(phone || "");
+
+  if (phoneStr.startsWith("62")) {
+    return "0" + phoneStr.substring(2);
+  }
+
+  return phoneStr;
+}
