@@ -82,3 +82,32 @@ export function sanitizePhoneNumber(phone: string): string {
 
   return cleaned;
 }
+
+/**
+ * Formats a stored phone number for UI display with international prefixes.
+ * Handles specific formatting for Indonesia (+62) and US (+1).
+ *
+ * @param phone - The raw phone number from the database.
+ * @returns The formatted display string.
+ *
+ * @example
+ * formatDisplayPhoneNumber("628123456"); // "+62 8123456"
+ */
+export function formatDisplayPhoneNumber(
+  phone: string | number | null
+): string {
+  const phoneStr = String(phone || "");
+
+  if (phoneStr.startsWith("62")) {
+    return `+62 ${phoneStr.substring(2)}`;
+  }
+
+  if (phoneStr.startsWith("1") && phoneStr.length === 11) {
+    return `+1 (${phoneStr.substring(1, 4)}) ${phoneStr.substring(
+      4,
+      7
+    )}-${phoneStr.substring(7)}`;
+  }
+
+  return `+${phoneStr}`;
+}
