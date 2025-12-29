@@ -202,3 +202,26 @@ export function getOrderStatus(status: string): string {
   if (status === "Shipped") return "text-blue-600";
   return "text-yellow-600";
 }
+
+/**
+ * Converts an internal entity type string into a human-readable display label.
+ * Useful for generating dynamic UI headers, titles, or breadcrumbs.
+ *
+ * @param type - The internal type identifier (e.g., "sale", "order", "product").
+ * @returns The formatted label string (e.g., "Invoice", "Purchase Order"), or the original string if no match is found.
+ *
+ * @example
+ * getTypeLabel("sale"); // Returns "Invoice"
+ * getTypeLabel("order"); // Returns "Purchase Order"
+ */
+export function getTypeLabel(type: string): string {
+  const labels: Record<string, string> = {
+    product: "Product",
+    supplier: "Supplier",
+    customer: "Customer",
+    sale: "Invoice",
+    order: "Purchase Order",
+  };
+
+  return labels[type] || type;
+}
