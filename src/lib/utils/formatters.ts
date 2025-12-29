@@ -158,3 +158,17 @@ export function formatNumber(value: string): string {
   if (rawValue === "") return "";
   return new Intl.NumberFormat("id-ID").format(Number(rawValue));
 }
+
+/**
+ * Extracts the "YYYY-MM-DD" date part from an ISO date string.
+ * This format is required for HTML <input type="date"> values.
+ *
+ * @param dateString - The ISO date string (e.g., "2023-12-25T10:00:00Z").
+ * @returns The date string formatted as "YYYY-MM-DD".
+ */
+export function formatDateForInput(
+  dateString: string | null | undefined
+): string {
+  if (!dateString) return "";
+  return dateString.split("T")[0];
+}
