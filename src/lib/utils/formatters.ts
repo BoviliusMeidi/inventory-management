@@ -145,3 +145,16 @@ export function formatToLocalPhone(phone: string | number | null): string {
 
   return phoneStr;
 }
+
+/**
+ * Formats a raw numeric string input into a human-readable number with separators.
+ * Strips non-digit characters before formatting.
+ *
+ * @param value - The raw input string.
+ * @returns The formatted number string (e.g., "1.000").
+ */
+export function formatNumber(value: string): string {
+  const rawValue = value.replace(/\D/g, "");
+  if (rawValue === "") return "";
+  return new Intl.NumberFormat("id-ID").format(Number(rawValue));
+}
