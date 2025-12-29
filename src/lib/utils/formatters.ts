@@ -190,3 +190,15 @@ export function getStockStatus(stock: number): {
   if (stock < 10) return { label: "Low Stock", color: "text-yellow-500" };
   return { label: "In-Stock", color: "text-green-500" };
 }
+
+/**
+ * Returns the appropriate Tailwind CSS text color class based on the order status.
+ *
+ * @param status - The status string (e.g., "Completed", "Shipped").
+ * @returns The Tailwind CSS class string.
+ */
+export function getOrderStatus(status: string): string {
+  if (status === "Completed") return "text-green-600";
+  if (status === "Shipped") return "text-blue-600";
+  return "text-yellow-600";
+}
