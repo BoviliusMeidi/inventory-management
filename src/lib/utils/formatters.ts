@@ -172,3 +172,21 @@ export function formatDateForInput(
   if (!dateString) return "";
   return dateString.split("T")[0];
 }
+
+/**
+ * Determines the label and text color class based on stock quantity.
+ *
+ * @param stock - The current stock amount.
+ * @returns An object containing the display label and Tailwind CSS color class.
+ *
+ * @example
+ * getStockStatus(5); // { label: "Low Stock", color: "text-yellow-500" }
+ */
+export function getStockStatus(stock: number): {
+  label: string;
+  color: string;
+} {
+  if (stock === 0) return { label: "Out of Stock", color: "text-red-500" };
+  if (stock < 10) return { label: "Low Stock", color: "text-yellow-500" };
+  return { label: "In-Stock", color: "text-green-500" };
+}
