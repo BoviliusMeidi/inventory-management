@@ -225,3 +225,29 @@ export function getTypeLabel(type: string): string {
 
   return labels[type] || type;
 }
+
+/**
+ * Returns the appropriate Tailwind CSS class names for a status badge based on the provided status string.
+ * This ensures consistent coloring for status indicators across the entire application.
+ *
+ * @param status - The status string (e.g., "Completed", "Pending", "Shipped", "Cancelled").
+ * @returns A string of Tailwind CSS classes for background and text color.
+ *
+ * @example
+ * getStatusColor("Completed"); // Returns "bg-green-100 text-green-700"
+ * getStatusColor("Pending");   // Returns "bg-orange-100 text-orange-700"
+ */
+export function getStatusColor(status: string): string {
+  const styles: Record<string, string> = {
+    Completed: "bg-green-100 text-green-700",
+    Paid: "bg-green-100 text-green-700",
+    Pending: "bg-orange-100 text-orange-700",
+    Shipped: "bg-blue-100 text-blue-700",
+    Processing: "bg-blue-100 text-blue-700",
+    Cancelled: "bg-red-100 text-red-700",
+    Failed: "bg-red-100 text-red-700",
+  };
+
+  // Default style (gray) if status is not found in the map
+  return styles[status] || "bg-gray-100 text-gray-600";
+}
