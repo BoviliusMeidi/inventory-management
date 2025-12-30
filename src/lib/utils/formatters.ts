@@ -251,3 +251,40 @@ export function getStatusColor(status: string): string {
   // Default style (gray) if status is not found in the map
   return styles[status] || "bg-gray-100 text-gray-600";
 }
+
+/**
+ * Formats a date string or object into a standardized human-readable string.
+ * Uses the "en-GB" locale (Day Month Year) which is commonly used in international business.
+ *
+ * @param date - The input date (ISO string, Date object, null, or undefined).
+ * @param includeTime - Whether to append the time (HH:mm) to the date string. Default is false.
+ * @returns The formatted string (e.g., "10 Dec 2025"), or "-" if the date is invalid/missing.
+ *
+ * @example
+ * formatDate("2025-12-10T10:00:00"); // Returns "10 Dec 2025"
+ * formatDate(new Date(), true);      // Returns "10 Dec 2025, 14:30"
+ */
+export function formatDate(
+  date: string | Date | null | undefined,
+  includeTime: boolean = false
+): string {
+  if (!date) return "-";
+
+  const d = new Date(date);
+
+  if (isNaN(d.getTime())) return "Invalid Date";
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  };
+
+  if (includeTime) {
+    options.hour = "2-digit";
+    options.minute = "2-digit";
+    options.hour12 = false;
+  }
+
+  return new Intl.DateTimeFormat("en-GB", options).format(d);
+}
